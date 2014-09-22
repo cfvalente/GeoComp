@@ -1,5 +1,6 @@
 import sys
 
+
 class node():
 	def __init__(self, seg):
 		self.seg = seg
@@ -7,6 +8,7 @@ class node():
 		self.left = None
 		self.right = None
 		self.height = 1
+
 
 def getHeight(node):
 	l = 0
@@ -35,8 +37,10 @@ class avl():
 		else:
 			return self.findNodeRec(treeNode.left, seg)
 
+
 	def findNode(self, seg):
 		return self.findNodeRec(self.root, seg)
+
 
 	def maximum(self):
 		treeNode = self.root
@@ -44,11 +48,48 @@ class avl():
 			treeNode = treeNode.right
 		return treeNode
 
+
 	def minimum(self):
 		treeNode = self.root
 		while(treeNode.left != None):
 			treeNode = treeNode.left
 		return treeNode
+
+
+	def sucessor(self, treeNode):
+		if(treeNode == None):
+			return None
+		if(treeNode.right != None):
+			n = treeNode.right
+			while(n.left != None):
+				n = n.left
+			return n
+		else:
+			n = treeNode
+			while(n.parent != None):
+				if(n == n.parent.left):
+					return n.parent
+				n = n.parent
+			return None;
+
+
+	def predecessor(self, treeNode):
+		if(treeNode == None):
+			return None
+		if(treeNode.left != None):
+			n = treeNode.left
+			while(n.right != None):
+				n = n.right
+			return n
+		else:
+			n = treeNode
+
+			while(n.parent != None):
+				if(n == n.parent.right):
+					return n.parent
+				n = n.parent
+			return None;
+
 
 	def insertRec(self, treeNode, newNode):
 		#criterio de comparacao, talvez seja necessario alterar
@@ -79,25 +120,63 @@ class avl():
 		else:
 			self.insertRec(self.root,newNode)
 
+def predecessorSucessorTest():
+	tree = avl()
+	tree.insert(2)
+	tree.insert(3)
+	tree.insert(-40)
+	tree.insert(-60)
+	tree.insert(-20)
+	tree.insert(-30)
+	tree.insert(-10)
+	if(not(tree.predecessor(tree.findNode(3)).seg==2)):
+		print("Error!")
+		return 0
+	if(not(tree.sucessor(tree.findNode(3))==None)):
+		print("Error!")
+		return 0
+	if(not(tree.predecessor(tree.findNode(2)).seg==-10)):
+		print("Error!")
+		return 0
+	if(not(tree.sucessor(tree.findNode(2)).seg==3)):
+		print("Error!")
+		return 0
+	if(not(tree.predecessor(tree.findNode(-10)).seg==-20)):
+		print("Error!")
+		return 0
+	if(not(tree.sucessor(tree.findNode(-10)).seg==2)):
+		print("Error!")
+		return 0
+	if(not(tree.predecessor(tree.findNode(-20)).seg==-30)):
+		print("Error!")
+		return 0
+	if(not(tree.sucessor(tree.findNode(-20)).seg==-10)):
+		print("Error!")
+		return 0
+	if(not(tree.predecessor(tree.findNode(-30)).seg==-40)):
+		print("Error!")
+		return 0
+	if(not(tree.sucessor(tree.findNode(-30)).seg==-20)):
+		print("Error!")
+		return 0
+	if(not(tree.predecessor(tree.findNode(-40)).seg==-60)):
+		print("Error!")
+		return 0
+	if(not(tree.sucessor(tree.findNode(-40)).seg==-30)):
+		print("Error!")
+		return 0
+	if(not(tree.predecessor(tree.findNode(-60))==None)):
+		print("Error!")
+		return 0
+	if(not(tree.sucessor(tree.findNode(-60)).seg==-40)):
+		print("Erro!")
+		return 0	
+	return 1
 
 
 def teste():
 	sys.setrecursionlimit(10000)
-	a = node(1)
-	print(getHeight(a.left))
-	print(a.height)
-	tree = avl()
-	tree.insert(2)
-	tree.insert(3)
-	n = tree.findNode(1)
-	n = tree.findNode(2)
-	n = tree.findNode(3)
-	for i in range(0, 100):
-		tree.insert(i)
-	n = tree.findNode(4)
-	n = tree.maximum()
-	n = tree.minimum()
-	n = tree.findNode(1002)
-	n = tree.findNode(2)
+	if(predecessorSucessorTest()):
+		print("Ok")
 
 teste()
