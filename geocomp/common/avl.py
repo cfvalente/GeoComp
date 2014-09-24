@@ -171,32 +171,84 @@ class avl():
 
 
 	def removeRec(self, treeNode, seg):
-		if(treeNode.seg > seg):
+		#busca o node do elemento
+		if(seg > treeNode.seg):
 			if(treeNode.right != None):
 				self.removeRec(treeNode.right, seg)
 			else:
 				return 0
-		elif(treeNode.seg < seg):
+		elif(seg < treeNode.seg):
 			if(treeNode.left != None):
 				self.removeRec(treeNode.left, seg)
 			else:
 				return 0
+		# encontra o node do elemento
 		else:
-			self.removeRec(treeNode.left,newNode)
+			#node nao tem filhos, eh uma folha - simplesmente apaga e retorna para fazer o rebalanceamento do no acima
 			if(treeNode.left == None and treeNode.right == None):
+				#node eh a raiz
 				if(treeNode.parent == None):
 					self.root = None
 					return 0
+				# node nao eh a raiz
 				if(treeNode.parent.left == treeNode):
 					treeNode.parent.left = None
+					return 0
 				else:
 					treeNode.parent.right = None
 					return 0
-			n = self.predecessor(treeNode)
-			if(n == None):
-				n = self.sucessor(treeNode)
-			if(n == None):
-				return 1
+			#node nao eh folha, apresenta pelo menos um filho
+			else:
+				#apresenta apenas o filho esquerdo
+				if(treeNode.left != None and treeNode.right == None):
+					if(treeNode.parent == None):
+						self.root = treeNode.left
+						treeNode.left.parent = None
+					else:
+						if(treeNode.parent.right == treeNode):
+							treeNode.parent.right = treeNode.left
+							treeNode.left.parent = treeNode.parent
+							return 0
+						else:
+							treeNode.parent.left = treeNode.left
+							treeNode.left.parent = treeNode.parent
+							return 0
+				#apresenta apenas o filho direito
+				elif(treeNode.right != None and treeNode.left == None):
+					if(treeNode.parent == None):
+						self.root = treeNode.right
+						treeNode.right.parent = None
+					else:
+						if(treeNode.parent.right == treeNode):
+							treeNode.parent.right = treeNode.right
+							treeNode.right.parent = treeNode.parent
+							return 0
+						else:
+							treeNode.parent.left = treeNode.right
+							treeNode.right.parent = treeNode.parent
+							return 0
+				#apresenta 2 filhos
+				else:
+					i=i+1
+
+		treeNode.height = getHeight(treeNode)
+		lHeight = getHeight(treeNode.left)
+		rHeight = getHeight(treeNode.right)
+		#balanceamento
+		if(lHeight-rHeight == 2):
+			llHeight = getHeight(treeNode.left.left)
+			lrHeight = getHeight(treeNode.left.right)
+			if(llHeight-lrHeight == -1):
+				L = treeNode.left
+				self.rotateLeft(L)
+			self.rotateRight(treeNode)
+		if(lHeight-rHeight == -2):
+			rlHeight = getHeight(treeNode.right.left)
+			rrHeight = getHeight(treeNode.right.right)
+			if(rlHeight-rrHeight == 1):
+				R = treeNode.right
+				self.rotateRight(R)
+			self.rotateLeft(treeNode)
 		return 0
 
 
@@ -297,12 +349,55 @@ def removeTest():
 	if not (tree.root.seg == 1):
 		print("Error!")
 		return 0
+	tree2 = avl()
+	tree2.insert(4)
+	tree2.insert(3)
+	tree2.insert(5.5)
+	tree2.insert(1)
+	tree2.insert(3.5)
+	tree2.insert(5)
+	tree2.insert(6)
+	tree2.insert(7)
+	#tree2.remove(4)
+
+	tree3 = avl()
+	tree3.insert(44)
+	tree3.insert(17)
+	tree3.insert(78)
+	tree3.insert(32)
+	tree3.insert(50)
+	tree3.insert(88)
+	tree3.insert(48)
+	tree3.insert(62)
+	tree3.remove(32)
+	if not(tree3.root.seg == 50):
+		print("Error!")
+		return 0
+
+	tree4 = avl()
+	tree4.insert(50)
+	tree4.insert(25)
+	tree4.insert(75)
+	tree4.insert(10)
+	tree4.insert(30)
+	tree4.insert(60)
+	tree4.insert(80)
+	tree4.insert(5)
+	tree4.insert(15)
+	tree4.insert(27)
+	tree4.insert(55)
+	tree4.insert(1)
+	tree4.remove(80)
+	if not(tree4.root.seg == 25):
+		print("Error!")
+		return 0
 	return 1
 
 
+
 def test():
-	predecessorSucessorTest()
-	balancingTest()
+	#predecessorSucessorTest()
+	#balancingTest()
 	removeTest()
 
 
