@@ -1,4 +1,3 @@
-import sys
 
 
 class node():
@@ -162,12 +161,42 @@ class avl():
 				self.rotateRight(R)
 			self.rotateLeft(treeNode)
 
+
 	def insert(self, seg):
 		newNode = node(seg)
 		if(self.root == None):
 			self.root = newNode
 		else:
 			self.insertRec(self.root,newNode)
+
+
+	def removeRec(self, treeNode, seg):
+		treeNode = self.findNode(seg)
+		if(treeNode.left == None and treeNode.right == None):
+			if(treeNode.parent == None):
+				self.root = None
+				return 0
+			if(treeNode.parent.left == treeNode):
+				treeNode.parent.left = None
+			else:
+				treeNode.parent.right = None
+			treeNode.parent.height = getHeight(treeNode)
+			return 0
+		n = self.predecessor(treeNode)
+		if(n == None):
+			n = self.sucessor(treeNode)
+			if(n == None):
+				return 1
+
+
+	def remove(self,seg):
+		treeNode = self.root
+		if not(treeNode == None):
+			removeRec(self, treeNode, seg)
+		return 1
+
+
+
 
 def predecessorSucessorTest():
 	tree = avl()
@@ -236,15 +265,37 @@ def balancingTest():
 	if not(tree.root.right.left.seg == 5):
 		print("Error!");
 		return 0
+	tree2 = avl()
+	for i in range(0,500):
+		tree.insert(i)
+	for i in range(-10000, -1):
+		tree.insert(i)
+	return 1
+
+
+def removeTest():
+	tree = avl()
+	tree.remove(42)
+	tree.insert(0)
+	tree.remove(0)
+	tree.insert(0)
+	tree.insert(1)
+	tree.remove(1)
+	tree.insert(1)
+	tree.remove(0)
+	if not (tree.root.seg == 1):
+		print("Error!")
+		return 0
 	return 1
 
 
 def test():
-	sys.setrecursionlimit(10000)
 	if not(predecessorSucessorTest()):
-		print("Error!");
+		print("Error!")
 	if not(balancingTest()):
-		print("Error!");
+		print("Error!")
+	if not(removeTest()):
+		print("Error!")
 
 
 
