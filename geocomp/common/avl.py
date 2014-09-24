@@ -171,28 +171,39 @@ class avl():
 
 
 	def removeRec(self, treeNode, seg):
-		treeNode = self.findNode(seg)
-		if(treeNode.left == None and treeNode.right == None):
-			if(treeNode.parent == None):
-				self.root = None
-				return 0
-			if(treeNode.parent.left == treeNode):
-				treeNode.parent.left = None
+		if(treeNode.seg > seg):
+			if(treeNode.right != None):
+				self.removeRec(treeNode.right, seg)
 			else:
-				treeNode.parent.right = None
-			treeNode.parent.height = getHeight(treeNode)
-			return 0
-		n = self.predecessor(treeNode)
-		if(n == None):
-			n = self.sucessor(treeNode)
+				return 0
+		elif(treeNode.seg < seg):
+			if(treeNode.left != None):
+				self.removeRec(treeNode.left, seg)
+			else:
+				return 0
+		else:
+			self.removeRec(treeNode.left,newNode)
+			if(treeNode.left == None and treeNode.right == None):
+				if(treeNode.parent == None):
+					self.root = None
+					return 0
+				if(treeNode.parent.left == treeNode):
+					treeNode.parent.left = None
+				else:
+					treeNode.parent.right = None
+					return 0
+			n = self.predecessor(treeNode)
+			if(n == None):
+				n = self.sucessor(treeNode)
 			if(n == None):
 				return 1
+		return 0
 
 
 	def remove(self,seg):
 		treeNode = self.root
 		if not(treeNode == None):
-			removeRec(self, treeNode, seg)
+			self.removeRec(treeNode, seg)
 		return 1
 
 
@@ -290,12 +301,9 @@ def removeTest():
 
 
 def test():
-	if not(predecessorSucessorTest()):
-		print("Error!")
-	if not(balancingTest()):
-		print("Error!")
-	if not(removeTest()):
-		print("Error!")
+	predecessorSucessorTest()
+	balancingTest()
+	removeTest()
 
 
 
