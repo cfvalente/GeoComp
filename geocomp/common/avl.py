@@ -91,6 +91,44 @@ class avl():
 			return None;
 
 
+	def rotateRight(self, treeNode):
+		L = treeNode.left
+		if(treeNode.parent != None):
+			if(treeNode.parent.left == treeNode):
+				treeNode.parent.left = L
+			else:
+				treeNode.parent.right = L
+		else:
+			self.root = L
+		L.parent = treeNode.parent
+		treeNode.parent = L
+		treeNode.left = L.right
+		if(treeNode.left != None):
+			treeNode.left.parent = treeNode
+		L.right = treeNode
+		treeNode.height = getHeight(treeNode)
+		L.height = getHeight(L)
+
+
+	def rotateLeft(self, treeNode):
+		R = treeNode.right
+		if(treeNode.parent != None):
+			if(treeNode.parent.left == treeNode):
+				treeNode.parent.left = R
+			else:
+				treeNode.parent.right = R
+		else:
+			self.root = R
+		R.parent = treeNode.parent
+		treeNode.parent = R
+		treeNode.right = R.left
+		if(treeNode.right != None):
+			treeNode.right.parent = treeNode
+		R.left = treeNode
+		treeNode.height = getHeight(treeNode)
+		R.height = getHeight(R)
+
+
 	def insertRec(self, treeNode, newNode):
 		#criterio de comparacao, talvez seja necessario alterar
 		if(newNode.seg > treeNode.seg):
@@ -109,9 +147,20 @@ class avl():
 		lHeight = getHeight(treeNode.left)
 		rHeight = getHeight(treeNode.right)
 		#balanceamento
-		if((lHeight-rHeight > 1) or (lHeight-rHeight <-1)):
-			i = 2
-
+		if(lHeight-rHeight == 2):
+			llHeight = getHeight(treeNode.left.left)
+			lrHeight = getHeight(treeNode.left.right)
+			if(llHeight-lrHeight == -1):
+				L = treeNode.left
+				self.rotateLeft(L)
+			self.rotateRight(treeNode)
+		if(lHeight-rHeight == -2):
+			rlHeight = getHeight(treeNode.right.left)
+			rrHeight = getHeight(treeNode.right.right)
+			if(rlHeight-rrHeight == 1):
+				R = treeNode.right
+				self.rotateRight(R)
+			self.rotateLeft(treeNode)
 
 	def insert(self, seg):
 		newNode = node(seg)
@@ -169,14 +218,34 @@ def predecessorSucessorTest():
 		print("Error!")
 		return 0
 	if(not(tree.sucessor(tree.findNode(-60)).seg==-40)):
-		print("Erro!")
+		print("Error!")
 		return 0	
 	return 1
 
 
-def teste():
-	sys.setrecursionlimit(10000)
-	if(predecessorSucessorTest()):
-		print("Ok")
+def balancingTest():
+	tree = avl()
+	tree.insert(5)
+	tree.insert(4)
+	tree.insert(3)
+	tree.insert(6)
+	tree.insert(5.5)
+	if not(tree.root.right.seg == 5.5):
+		print("Error!");
+		return 0
+	if not(tree.root.right.left.seg == 5):
+		print("Error!");
+		return 0
+	return 1
 
-teste()
+
+def test():
+	sys.setrecursionlimit(10000)
+	if not(predecessorSucessorTest()):
+		print("Error!");
+	if not(balancingTest()):
+		print("Error!");
+
+
+
+test()
