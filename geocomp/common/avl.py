@@ -127,22 +127,7 @@ class avl():
 		treeNode.height = getHeight(treeNode)
 		R.height = getHeight(R)
 
-
-	def insertRec(self, treeNode, newNode):
-		#criterio de comparacao, talvez seja necessario alterar
-		if(newNode.seg > treeNode.seg):
-			if(treeNode.right == None):
-				treeNode.right = newNode
-				newNode.parent = treeNode
-			else:
-				self.insertRec(treeNode.right,newNode)	
-		else:
-			if(treeNode.left == None):
-				treeNode.left = newNode
-				newNode.parent = treeNode
-			else:
-				self.insertRec(treeNode.left,newNode)
-		treeNode.height = getHeight(treeNode)
+	def balance(self, treeNode):
 		lHeight = getHeight(treeNode.left)
 		rHeight = getHeight(treeNode.right)
 		#balanceamento
@@ -160,6 +145,25 @@ class avl():
 				R = treeNode.right
 				self.rotateRight(R)
 			self.rotateLeft(treeNode)
+		return
+
+
+	def insertRec(self, treeNode, newNode):
+		#criterio de comparacao, talvez seja necessario alterar
+		if(newNode.seg > treeNode.seg):
+			if(treeNode.right == None):
+				treeNode.right = newNode
+				newNode.parent = treeNode
+			else:
+				self.insertRec(treeNode.right,newNode)	
+		else:
+			if(treeNode.left == None):
+				treeNode.left = newNode
+				newNode.parent = treeNode
+			else:
+				self.insertRec(treeNode.left,newNode)
+		treeNode.height = getHeight(treeNode)
+		self.balance(treeNode)
 
 
 	def insert(self, seg):
@@ -168,6 +172,27 @@ class avl():
 			self.root = newNode
 		else:
 			self.insertRec(self.root,newNode)
+
+	def findSucessorForRemovalRec(self, treeNode):
+		if(treeNode.left != None):
+			suc = self.findSucessorForRemovalRec(treeNode.left)
+		else:
+			if(treeNode.parent.left == treeNode):
+				treeNode.parent.left = treeNode.right
+				if(treeNode.right != None):
+					treeNode.right.parent = treeNode.parent
+			else:
+				treeNode.parent.right = treeNode.right
+				if(treeNode.right != None):
+					treeNode.right.parent = treeNode.parent
+			return treeNode
+		treeNode.height = getHeight(treeNode)
+		self.balance(treeNode)
+		return suc
+
+	def findSucessorForRemoval(self, treeNode):
+		suc = self.findSucessorForRemovalRec(treeNode.right)
+		return suc
 
 
 	def removeRec(self, treeNode, seg):
@@ -229,26 +254,11 @@ class avl():
 							return 0
 				#apresenta 2 filhos
 				else:
-					i=i+1
+					suc = self.findSucessorForRemoval(treeNode)
+					treeNode.seg = suc.seg
 
 		treeNode.height = getHeight(treeNode)
-		lHeight = getHeight(treeNode.left)
-		rHeight = getHeight(treeNode.right)
-		#balanceamento
-		if(lHeight-rHeight == 2):
-			llHeight = getHeight(treeNode.left.left)
-			lrHeight = getHeight(treeNode.left.right)
-			if(llHeight-lrHeight == -1):
-				L = treeNode.left
-				self.rotateLeft(L)
-			self.rotateRight(treeNode)
-		if(lHeight-rHeight == -2):
-			rlHeight = getHeight(treeNode.right.left)
-			rrHeight = getHeight(treeNode.right.right)
-			if(rlHeight-rrHeight == 1):
-				R = treeNode.right
-				self.rotateRight(R)
-			self.rotateLeft(treeNode)
+		self.balance(treeNode)
 		return 0
 
 
@@ -358,7 +368,7 @@ def removeTest():
 	tree2.insert(5)
 	tree2.insert(6)
 	tree2.insert(7)
-	#tree2.remove(4)
+	tree2.remove(4)
 
 	tree3 = avl()
 	tree3.insert(44)
