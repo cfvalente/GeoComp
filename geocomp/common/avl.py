@@ -369,36 +369,53 @@ def removeTest():
 	tree2.insert(6)
 	tree2.insert(7)
 	tree2.remove(4)
+	if not (tree2.root.seg == 5 and tree2.root.right.seg == 6):
+		print("Error!")
+		return 0
 
 	tree3 = avl()
-	tree3.insert(44)
-	tree3.insert(17)
-	tree3.insert(78)
-	tree3.insert(32)
-	tree3.insert(50)
-	tree3.insert(88)
-	tree3.insert(48)
-	tree3.insert(62)
-	tree3.remove(32)
-	if not(tree3.root.seg == 50):
+	tree3.insert(4)
+	tree3.insert(3)
+	tree3.insert(5.5)
+	tree3.insert(1)
+	tree3.insert(3.5)
+	tree3.insert(5)
+	tree3.insert(6)
+	tree3.insert(7)
+	tree3.remove(5.5)
+	if not (tree3.root.seg == 4 and tree3.root.right.seg == 6 and tree3.root.right.left.seg == 5):
 		print("Error!")
 		return 0
 
 	tree4 = avl()
+	tree4.insert(44)
+	tree4.insert(17)
+	tree4.insert(78)
+	tree4.insert(32)
 	tree4.insert(50)
-	tree4.insert(25)
-	tree4.insert(75)
-	tree4.insert(10)
-	tree4.insert(30)
-	tree4.insert(60)
-	tree4.insert(80)
-	tree4.insert(5)
-	tree4.insert(15)
-	tree4.insert(27)
-	tree4.insert(55)
-	tree4.insert(1)
-	tree4.remove(80)
-	if not(tree4.root.seg == 25):
+	tree4.insert(88)
+	tree4.insert(48)
+	tree4.insert(62)
+	tree4.remove(32)
+	if not(tree4.root.seg == 50):
+		print("Error!")
+		return 0
+
+	tree5 = avl()
+	tree5.insert(50)
+	tree5.insert(25)
+	tree5.insert(75)
+	tree5.insert(10)
+	tree5.insert(30)
+	tree5.insert(60)
+	tree5.insert(80)
+	tree5.insert(5)
+	tree5.insert(15)
+	tree5.insert(27)
+	tree5.insert(55)
+	tree5.insert(1)
+	tree5.remove(80)
+	if not(tree5.root.seg == 25):
 		print("Error!")
 		return 0
 	return 1
@@ -406,8 +423,8 @@ def removeTest():
 
 
 def test():
-	#predecessorSucessorTest()
-	#balancingTest()
+	predecessorSucessorTest()
+	balancingTest()
 	removeTest()
 
 
