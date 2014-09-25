@@ -343,6 +343,14 @@ def balancingTest():
 		tree.insert(i)
 	for i in range(-10000, -1):
 		tree.insert(i)
+	
+	for i in range(0, 100000):
+		tree.insert(i)
+# 17 = floor(log2(110500))+1
+	if not(tree.root.height == 17):
+		print("Error!")
+		return 0
+
 	return 1
 
 
@@ -418,6 +426,19 @@ def removeTest():
 	if not(tree5.root.seg == 25):
 		print("Error!")
 		return 0
+	tree6 = avl()
+	for i in range(-500, 600):
+		tree6.insert(i)
+	for i in range(-450, 540):
+		tree6.remove(i)
+	for i in range(-500, 595):
+		tree6.remove(i)
+	for i in range(596, 600):
+		tree6.remove(i)
+	if not(tree6.root.seg == 595):
+		print("Error!")
+		return 0
+
 	return 1
 
 
