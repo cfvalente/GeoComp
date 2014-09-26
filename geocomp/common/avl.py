@@ -9,6 +9,50 @@ class node():
 		self.height = 1
 
 
+	def setValue(self, seg):
+		self.seg = seg
+
+
+	def setValueN(self, n):
+		self.seg = n.seg
+
+
+	def greater(self, val):
+		if(self.seg < val):
+			return 1
+		return 0
+
+
+	def greaterEqual(self, val):
+		if(self.seg <= val):
+			return 1
+		return 0
+
+
+	def equal(self, val):
+		if(self.seg == val):
+			return 1
+		return 0
+
+
+	def greaterN(self, n):
+		if(self.seg < n.seg):
+			return 1
+		return 0
+
+
+	def greaterEqualN(self, n):
+		if(self.seg <= n.seg):
+			return 1
+		return 0
+
+
+	def equalN(self, n):
+		if(self.seg == n.seg):
+			return 1
+		return 0
+
+
 def getHeight(node):
 	l = 0
 	r = 0
@@ -29,9 +73,9 @@ class avl():
 	def findNodeRec(self, treeNode, seg):
 		if(treeNode == None):
 			return None
-		if(seg == treeNode.seg):
+		if(treeNode.equal(seg)):
 			return treeNode
-		if(seg > treeNode.seg):
+		if(treeNode.greater(seg)):
 			return self.findNodeRec(treeNode.right, seg)
 		else:
 			return self.findNodeRec(treeNode.left, seg)
@@ -150,7 +194,7 @@ class avl():
 
 	def insertRec(self, treeNode, newNode):
 		#criterio de comparacao, talvez seja necessario alterar
-		if(newNode.seg > treeNode.seg):
+		if(treeNode.greaterN(newNode)):
 			if(treeNode.right == None):
 				treeNode.right = newNode
 				newNode.parent = treeNode
@@ -197,12 +241,12 @@ class avl():
 
 	def removeRec(self, treeNode, seg):
 		#busca o node do elemento
-		if(seg > treeNode.seg):
+		if(treeNode.greater(seg)):
 			if(treeNode.right != None):
 				self.removeRec(treeNode.right, seg)
 			else:
 				return 0
-		elif(seg < treeNode.seg):
+		elif(not treeNode.greaterEqual(seg)):
 			if(treeNode.left != None):
 				self.removeRec(treeNode.left, seg)
 			else:
@@ -255,7 +299,7 @@ class avl():
 				#apresenta 2 filhos
 				else:
 					suc = self.findSucessorForRemoval(treeNode)
-					treeNode.seg = suc.seg
+					treeNode.setValueN(suc)
 
 		treeNode.height = getHeight(treeNode)
 		self.balance(treeNode)
