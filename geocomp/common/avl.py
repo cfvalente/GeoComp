@@ -174,7 +174,7 @@ class avl():
 	def balance(self, treeNode):
 		lHeight = getHeight(treeNode.left)
 		rHeight = getHeight(treeNode.right)
-		#balanceamento
+
 		if(lHeight-rHeight == 2):
 			llHeight = getHeight(treeNode.left.left)
 			lrHeight = getHeight(treeNode.left.right)

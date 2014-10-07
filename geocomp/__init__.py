@@ -10,6 +10,7 @@ Sub-modulos:
 
 import convexhull
 import farthest
+import triangulation
 from common.guicontrol import init_display
 from common.guicontrol import config_canvas
 from common.guicontrol import run_algorithm
@@ -18,6 +19,7 @@ from common.prim import get_count
 from common.prim import reset_count
 
 children = (   ( 'convexhull', None, 'Fecho Convexo' ),
+			( 'triangulation', None, 'Triangulacao' ),
 		( 'farthest',  None, 'Par Mais Distante' )
 	)
 
