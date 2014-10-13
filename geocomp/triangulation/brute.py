@@ -22,8 +22,8 @@ def intersects(a, b, c, d):
 
 
 def inCone(n, p, i, j):
-	w = (i-1)%n
-	u = (i+1)%n
+	u = (i-1)%n
+	w = (i+1)%n
 	if(left_on(p[u], p[i], p[w])):
 		return (left(p[i], p[j], p[u]) and left(p[j], p[i], p[w]))
 	return not ( left(p[i], p[j], p[w]) and left(p[j], p[i], p[u]) )
@@ -54,6 +54,7 @@ def findAllEars(n, p):
 
 
 def Brute(p):
+	print "\n"
 	n = len(p)
 	ear = findAllEars(n, p)
 	while(n > 3):
@@ -70,6 +71,5 @@ def Brute(p):
 		indv3 = i%n
 		ear[indv1] = isEar(n, p, indv1)
 		ear[indv3] = isEar(n, p, indv3)
-		print v1
-		print v3
+		print(str(v1)+" "+str(v3))
 	return 0;
