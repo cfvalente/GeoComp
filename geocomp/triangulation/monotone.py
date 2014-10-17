@@ -148,7 +148,7 @@ def TriangMonotoneUsingDCEL(d):
 
 			elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
 				s.remove()
-				while(s.size > 2):
+				while(s.size > 1):
 					print(str(event[i].origin)+" "+str(s.getTop().origin))
 					s.remove()
 
@@ -159,6 +159,7 @@ def TriangMonotoneUsingDCEL(d):
 	return 0
 
 
+# -- O algoritmo so funciona para poligonos dados no sentido anti horario!!! Em decorrencia do uso da funcao Reflex
 def Monotone(p):
 	print ""
 	d = dcel()
@@ -167,3 +168,24 @@ def Monotone(p):
 	TriangMonotoneUsingDCEL(d)
 
 	return 0
+
+
+
+#( 60.0 387.0 ) ( 243.0 395.0 )
+#( 60.0 387.0 ) ( 240.0 437.0 )
+#( 138.0 357.0 ) ( 243.0 395.0
+#( 300.0 347.0 ) ( 138.0 357.0
+#( 400.0 307.0 ) ( 138.0 357.0
+#( 200.0 285.0 ) ( 400.0 307.0
+#( 390.0 237.0 ) ( 200.0 285.0
+#( 161.0 204.0 ) ( 390.0 237.0
+#( 290.0 197.0 ) ( 161.0 204.0
+#( 100.0 174.0 ) ( 290.0 197.0
+#( 240.0 137.0 ) ( 100.0 174.0
+#( 157.0 95.0 ) ( 364.0 124.0 )
+#( 157.0 95.0 ) ( 240.0 137.0 )
+#( 224.0 80.0 ) ( 364.0 124.0 )
+#( 340.0 67.0 ) ( 224.0 80.0 )
+#( 192.0 39.0 ) ( 340.0 67.0 )
+#( 312.0 37.0 ) ( 192.0 39.0 )
+#( 361.0 12.0 ) ( 192.0 39.0 )
