@@ -5,7 +5,7 @@ class edge():
 		self.destiny = destiny
 		self.next = None
 		self.previous = None
-		self.incidentFace = face
+		self.incidentFace = face #provavelmente nao sera necessario - verificar no algoritmo lee e preparata, basta guardar 1 das arestas de cada face, o que 'ja eh feito em dcel
 		self.twin = None
 
 

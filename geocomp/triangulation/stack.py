@@ -35,3 +35,8 @@ class stack():
 		if(self.size > 0):
 			return self.top.value
 		return None
+
+	def getSecond(self):
+		if(self.size > 1):
+			return self.top.previous.value
+		return None

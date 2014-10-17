@@ -1,9 +1,11 @@
 from geocomp.common.prim import * 
 from geocomp.triangulation.dcel import *
 from geocomp.triangulation.stack import *
+from math import acos
+from math import sqrt
 
 # Retorna True caso p esteja acima de q, ou entao caso tenham a mesma y coordenada e p tenha x coordenada menor
-def above(p, q):
+def Above(p, q):
 	if(p.y > q.y):
 		return True
 	elif(p.y < q.y):
@@ -14,7 +16,7 @@ def above(p, q):
 		elif(p.x > q.x):
 			return False
 		else:
-			print("Equal vertices? Is this allowed Arnaldo?")
+			print("Are you sure? There are 2 points with the same coordinates."+str(p))
 			return True
 
 # Merge assumindo listas decrescentes
@@ -26,7 +28,7 @@ def Merge(l1, l2):
 	ind2 = 0
 	for i in range(0, len1+len2):
 		if(ind1 < len1 and ind2 < len2):
-			if(above(l1[ind1].origin, l2[ind2].origin)):
+			if(Above(l1[ind1].origin, l2[ind2].origin)):
 				res.append(l1[ind1])
 				ind1 = ind1+1
 			else:
@@ -51,9 +53,9 @@ def generateDecreasingVerticeList(dcel, face):
 
 	e = dcel.faces[face].next
 	while(e.origin != origin):
-			if(above(e.origin, maxEdge.origin)):
+			if(Above(e.origin, maxEdge.origin)):
 				maxEdge = e
-			if(above(minEdge.origin, e.origin)):
+			if(Above(minEdge.origin, e.origin)):
 				minEdge = e
 			e = e.next
 
@@ -70,10 +72,24 @@ def generateDecreasingVerticeList(dcel, face):
 
 	return Merge(l1,l2)
 
-def adjacent(e1, e2):
+def Adjacent(e1, e2):
 	if(e1.next.origin == e2.origin or e1.previous.origin == e2.origin):
 		return True
 	return False
+
+def Angle(p, q, r):
+	v1x = q.x-p.x
+	v1y = q.y-p.y
+	v2x = r.x-p.x
+	v2y = r.y-p.y
+	n1 = sqrt(v1x*v1x+v1y*v1y)
+	n2 = sqrt(v2x*v2x+v2y*v2y)
+	v1xn = v1x/n1
+	v1yn = v1y/n1
+	v2xn = v2x/n2
+	v2yn = v2y/n2
+	ang = acos(v1xn*v2xn+v1yn*v2yn)
+	return ang
 
 def Monotone(p):
 	print ""
@@ -90,13 +106,19 @@ def Monotone(p):
 		s.insert(event[1])
 
 		for i in range(2, len(event)):
-			
-			if(not adjacent(event[i], s1) and adjacent(event[i], s.getTop())):
+			st = s.getTop();
+
+			if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
 				print "caso a"
-			elif(adjacent(event[i], s1) and not adjacent(event[i], s.getTop())):
+				if( s.size > 1 and Angle(event[i].origin, st.origin, s.getSecond().origin) < 3.14159265358979323846):
+					print "ok"
+
+			elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
 				print "caso b"
-			elif(adjacent(event[i], s1) and adjacent(event[i], s.getTop())):
+
+			elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
 				print "caso c"
+
 			else:
 				print "merda"
 
