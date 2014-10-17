@@ -1,6 +1,6 @@
 from geocomp.common.prim import * 
 from geocomp.triangulation.dcel import *
-
+from geocomp.triangulation.stack import *
 
 # Retorna True caso p esteja acima de q, ou entao caso tenham a mesma y coordenada e p tenha x coordenada menor
 def above(p, q):
@@ -26,7 +26,7 @@ def Merge(l1, l2):
 	ind2 = 0
 	for i in range(0, len1+len2):
 		if(ind1 < len1 and ind2 < len2):
-			if(above(l1[ind1], l2[ind2])):
+			if(above(l1[ind1].origin, l2[ind2].origin)):
 				res.append(l1[ind1])
 				ind1 = ind1+1
 			else:
@@ -59,26 +59,47 @@ def generateDecreasingVerticeList(dcel, face):
 
 	e = maxEdge
 	while(e.origin != minEdge.origin):
-		l1.append(e.origin)
+		l1.append(e)
 		e = e.next
-	l1.append(minEdge.origin)
+	l1.append(minEdge)
 
 	e = maxEdge.previous
 	while(e.origin != minEdge.origin):
-		l2.append(e.origin)
+		l2.append(e)
 		e = e.previous
 
 	return Merge(l1,l2)
 
+def adjacent(e1, e2):
+	if(e1.next.origin == e2.origin or e1.previous.origin == e2.origin):
+		return True
+	return False
 
 def Monotone(p):
 	print ""
 	d = dcel()
 	d.createDCELfromPolygon(p)
-	d.printFaceVertices(1)
-	events = generateDecreasingVerticeList(d, 1)
+	#d.printFaceVertices(1)
 
+	for f in range(1, len(d.faces)):
+		event = generateDecreasingVerticeList(d, f)
+		s = stack()
 
-	print(len(d.faces))
+		s1 = event[0]
+		s.insert(event[0])
+		s.insert(event[1])
+
+		for i in range(2, len(event)):
+			
+			if(not adjacent(event[i], s1) and adjacent(event[i], s.getTop())):
+				print "caso a"
+			elif(adjacent(event[i], s1) and not adjacent(event[i], s.getTop())):
+				print "caso b"
+			elif(adjacent(event[i], s1) and adjacent(event[i], s.getTop())):
+				print "caso c"
+			else:
+				print "merda"
+
+	#print(len(d.faces))
 
 	return 0
