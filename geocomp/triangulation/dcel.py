@@ -63,9 +63,3 @@ class dcel():
 			print e.origin
 			e = e.next
 		return
-
-t = [(10,-10), (10,10), (-10,10), (-10,-10)]
-d = dcel()
-d.createDCELfromPolygon(t)
-d.printFaceVertices(1)
-

@@ -54,7 +54,7 @@ def findAllEars(n, p):
 
 
 def Brute(p):
-	print "\n"
+	print ""
 	n = len(p)
 	ear = findAllEars(n, p)
 	while(n > 3):

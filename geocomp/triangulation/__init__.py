@@ -9,10 +9,10 @@ Algoritmos disponveis:
 """
 import brute
 import leepreparata
-import monotoneTriang
+import monotone
 
 children = [
-	[ 'monotoneTriang', 'Monotone', 'Triangulacao de Y Monotono' ],
+	[ 'monotone', 'Monotone', 'Triangulacao de Y Monotono' ],
 	[ 'leepreparata', 'LeePreparata', 'Lee e Preparata' ],
 	[ 'brute', 'Brute', 'Forca Bruta' ]
 ]
