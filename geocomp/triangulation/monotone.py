@@ -77,7 +77,16 @@ def Adjacent(e1, e2):
 		return True
 	return False
 
+
 def Angle(p, q, r):
+	p.x = 0
+	p.y = 0
+	q.x = 5
+	q.y = 5
+	r.x = 5
+	r.y = -5
+
+
 	v1x = q.x-p.x
 	v1y = q.y-p.y
 	v2x = r.x-p.x
@@ -88,15 +97,21 @@ def Angle(p, q, r):
 	v1yn = v1y/n1
 	v2xn = v2x/n2
 	v2yn = v2y/n2
+	cos = v1xn*v2xn+v1yn*v2yn
 	ang = acos(v1xn*v2xn+v1yn*v2yn)
+
+	#ang1 = Angle(Point(0,0), Point(5,5), Point(-5,-5))
 	return ang
 
-def Monotone(p):
-	print ""
-	d = dcel()
-	d.createDCELfromPolygon(p)
-	#d.printFaceVertices(1)
+def Reflex(ui, st, stt):
+	#Entao estamos na parte crescente do poligono - parte direita considerando sentido anti horario - com isso basta checar
+	if(Above(st.next.origin, st.origin)):
+		return left(ui.origin,st.origin,stt.origin)
+	#Caso estejamos na parte descrescente temos que checar o inverso
+	return right(ui.origin,st.origin,stt.origin)
 
+
+def TriangMonotoneUsingDCEL(d):
 	for f in range(1, len(d.faces)):
 		event = generateDecreasingVerticeList(d, f)
 		s = stack()
@@ -106,22 +121,49 @@ def Monotone(p):
 		s.insert(event[1])
 
 		for i in range(2, len(event)):
-			st = s.getTop();
+			st = s.getTop()
+
+
 
 			if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
-				print "caso a"
-				if( s.size > 1 and Angle(event[i].origin, st.origin, s.getSecond().origin) < 3.14159265358979323846):
-					print "ok"
+				#if( s.size > 1 and Angle(st.origin, event[i].origin, s.getSecond().origin) < 3.14159265358979323846):
+				while( s.size > 1 and Reflex(event[i], st, s.getSecond())):
+					s.remove()
+					st = s.getTop()
+					print(str(event[i].origin)+" "+str(st.origin))
+				s.insert(event[i])
+
+
 
 			elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
-				print "caso b"
+				while(s.size > 1):
+					print(str(event[i].origin)+" "+str(s.getTop().origin))
+					s.remove()
+				s.remove()
+				s.insert(st)
+				s.insert(event[i])
+				s1 = st
+
+
 
 			elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
-				print "caso c"
+				s.remove()
+				while(s.size > 2):
+					print(str(event[i].origin)+" "+str(s.getTop().origin))
+					s.remove()
 
 			else:
-				print "merda"
+				print "wtf"
 
-	#print(len(d.faces))
+
+	return 0
+
+
+def Monotone(p):
+	print ""
+	d = dcel()
+	d.createDCELfromPolygon(p)
+
+	TriangMonotoneUsingDCEL(d)
 
 	return 0
