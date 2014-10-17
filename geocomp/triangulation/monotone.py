@@ -106,9 +106,9 @@ def Angle(p, q, r):
 def Reflex(ui, st, stt):
 	#Entao estamos na parte crescente do poligono - parte direita considerando sentido anti horario - com isso basta checar
 	if(Above(st.next.origin, st.origin)):
-		return left(ui.origin,st.origin,stt.origin)
+		return not left(ui.origin,st.origin,stt.origin)
 	#Caso estejamos na parte descrescente temos que checar o inverso
-	return right(ui.origin,st.origin,stt.origin)
+	return not right(ui.origin,st.origin,stt.origin)
 
 
 def TriangMonotoneUsingDCEL(d):
@@ -127,7 +127,7 @@ def TriangMonotoneUsingDCEL(d):
 
 			if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
 				#if( s.size > 1 and Angle(st.origin, event[i].origin, s.getSecond().origin) < 3.14159265358979323846):
-				while( s.size > 1 and Reflex(event[i], st, s.getSecond())):
+				while( s.size > 1 and not Reflex(event[i], st, s.getSecond())):
 					s.remove()
 					st = s.getTop()
 					print(str(event[i].origin)+" "+str(st.origin))
