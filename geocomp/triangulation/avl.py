@@ -491,7 +491,3 @@ def test():
 	predecessorSucessorTest()
 	balancingTest()
 	removeTest()
-
-
-
-test()

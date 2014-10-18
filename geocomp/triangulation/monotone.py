@@ -3,21 +3,8 @@ from geocomp.triangulation.dcel import *
 from geocomp.triangulation.stack import *
 from math import acos
 from math import sqrt
+from geocomp.triangulation.mergesort import Above
 
-# Retorna True caso p esteja acima de q, ou entao caso tenham a mesma y coordenada e p tenha x coordenada menor
-def Above(p, q):
-	if(p.y > q.y):
-		return True
-	elif(p.y < q.y):
-		return False
-	else:
-		if(p.x < q.x):
-			return True
-		elif(p.x > q.x):
-			return False
-		else:
-			print("Are you sure? There are 2 points with the same coordinates."+str(p))
-			return True
 
 # Merge assumindo listas decrescentes
 def Merge(l1, l2):
