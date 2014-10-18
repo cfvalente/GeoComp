@@ -165,6 +165,23 @@ def Monotone(p):
 	d = dcel()
 	d.createDCELfromPolygon(p)
 
+
+	e1 = d.faces[1]
+	e2 = e1.next.next
+	d.insertEdge(e1,e2)
+
+	print "Zero"
+	d.printFaceVertices(0)
+	print "Um"
+	d.printFaceVertices(1)
+	print "Dois"
+	d.printFaceVertices(2)
+
+
+
+
+
+
 	TriangMonotoneUsingDCEL(d)
 
 	return 0
