@@ -67,10 +67,16 @@ def upTip(p, i):
 
 
 def LeePreparata(p):
+	print ""
 	t = avl()
 	d = dcel()
 	d.createDCELfromPolygon(p)
 	event = MergeSort(p, range(0, len(p)))
 	for i in range(0, len(event)):
-		print "Ok"
+		if(downTip(p, event[i])):
+			print "Caso 2   "+str(event[i])
+		elif(upTip(p, event[i])):
+			print "Caso 3   "+str(event[i])
+		else:
+			print "Caso 1   "+str(event[i])
 	return 0
