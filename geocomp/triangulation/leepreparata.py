@@ -59,14 +59,18 @@ def downTip(p, i):
 		return True
 	return False
 
-
+def upTip(p, i):
+	n = len(p)
+	if(not Above(p[i], p[(i-1)%n]) and not Above(p[i], p[(i+1)%n])):
+		return True
+	return False
 
 
 def LeePreparata(p):
 	t = avl()
 	d = dcel()
 	d.createDCELfromPolygon(p)
-	event = MergeSort(p)
+	event = MergeSort(p, range(0, len(p)))
 	for i in range(0, len(event)):
 		print "Ok"
 	return 0

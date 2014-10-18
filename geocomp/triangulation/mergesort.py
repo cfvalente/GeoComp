@@ -18,31 +18,42 @@ def Above(p, q):
 
 # Merge assumindo listas decrescentes
 def Merge(l1, l2):
-	len1 = len(l1)
-	len2 = len(l2)
-	res = []
-	ind1 = 0
-	ind2 = 0
+	len1 = len(l1['point'])
+	len2 = len(l2['point'])
+	res = {'point' : [], 'index' : []}
+	i1 = 0
+	i2 = 0
 	for i in range(0, len1+len2):
-		if(ind1 < len1 and ind2 < len2):
-			if(Above(l1[ind1], l2[ind2])):
-				res.append(l1[ind1])
-				ind1 = ind1+1
+		if(i1 < len1 and i2 < len2):
+			if(Above(l1['point'][i1], l2['point'][i2])):
+				res['point'].append(l1['point'][i1])
+				res['index'].append(l1['index'][i1])
+				i1 = i1+1
 			else:
-				res.append(l2[ind2])
-				ind2 = ind2+1
-		elif(ind1 < len1 and ind2 == len2):
-			res.append(l1[ind1])
-			ind1 = ind1+1
+				res['point'].append(l2['point'][i2])
+				res['index'].append(l2['index'][i2])
+				i2 = i2+1
+		elif(i1 < len1 and i2 == len2):
+			res['point'].append(l1['point'][i1])
+			res['index'].append(l1['index'][i1])
+			i1 = i1+1
 		else:
-			res.append(l2[ind2])
-			ind2 = ind2+1
+			res['point'].append(l2['point'][i2])
+			res['index'].append(l2['index'][i2])
+			i2 = i2+1
 	return res
 
 
-def MergeSort(p):
-	if(len(p) <= 1):
-		return p
-	mid = len(p) // 2
-	return Merge( MergeSort(p[mid:]), MergeSort(p[:mid]) )
-	return res
+def RecMergeSort(v):
+	if(len(v['point']) <= 1):
+		return {'point' : v['point'], 'index' : v['index']}
+	mid = len(v['point']) // 2
+	inter1 = RecMergeSort({'point' : v['point'][mid:], 'index' : v['index'][mid:]})
+	inter2 = RecMergeSort(({'point' : v['point'][:mid], 'index' : v['index'][:mid]}))
+	return Merge(inter1,inter2)
+	#return Merge( RecMergeSort({'point' : v['point'][mid:], 'index' : v['index'][mid:]}), RecMergeSort(({'point' : v['point'][:mid], 'index' : v['index'][:mid]})) )
+
+
+def MergeSort(p, ind):
+	res = RecMergeSort({'point' : p, 'index' : ind})
+	return res['index']
