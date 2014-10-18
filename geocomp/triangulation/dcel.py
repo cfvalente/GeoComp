@@ -67,8 +67,21 @@ class dcel():
 			e = e.next
 		return
 
+	def findFace(self, edge):
+		for i in range(0, len(self.faces)):
+			if(edge == self.faces[i]):
+				return i
+		origin = edge
+		edge = edge.next
+		while(edge != origin):
+			for i in range(0, len(self.faces)):
+				if(edge == self.faces[i]):
+					return i
+			edge = edge.next
+		return -1
+
 	# Nova aresta entre as origem da aresta1 ate a origem da aresta2
-	def insertEdge(self, edge1, edge2):
+	def insertEdge(self, edge1, edge2, face):
 		ne = edge(edge2.origin, edge1.origin, edge1.incidentFace)
 		nt = edge(edge1.origin, edge2.origin, len(self.faces))
 		ne.twin = nt
@@ -86,6 +99,7 @@ class dcel():
 		edge2.previous.next = ne
 		edge2.previous = nt
 
+		self.faces[face] = ne
 		self.faces.append(nt)
 
 		return

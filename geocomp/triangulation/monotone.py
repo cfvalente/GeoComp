@@ -168,7 +168,15 @@ def Monotone(p):
 
 	e1 = d.faces[1]
 	e2 = e1.next.next
-	d.insertEdge(e1,e2)
+	d.insertEdge(e2,e1,1)
+
+	u = d.findFace(e1)
+	u = d.findFace(e1.next)
+	u = d.findFace(e1.next.next)
+	
+	u = d.findFace(e2)
+	u = d.findFace(e2.next)
+	u = d.findFace(e2.next.next)
 
 	print "Zero"
 	d.printFaceVertices(0)
