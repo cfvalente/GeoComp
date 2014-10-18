@@ -44,5 +44,5 @@ def MergeSort(p):
 	if(len(p) <= 1):
 		return p
 	mid = len(p) // 2
-	return Merge( RecMerge(p[mid:]), RecMerge(p[:mid]) )
+	return Merge( MergeSort(p[mid:]), MergeSort(p[:mid]) )
 	return res

@@ -66,8 +66,7 @@ def LeePreparata(p):
 	t = avl()
 	d = dcel()
 	d.createDCELfromPolygon(p)
-	for i in range(0, len(p)):
-		if(downTip(p,i)):
-			print i
-	merged = MergeSort(p)
+	event = MergeSort(p)
+	for i in range(0, len(event)):
+		print "Ok"
 	return 0
