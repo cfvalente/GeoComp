@@ -49,6 +49,9 @@ class trapezoid():
 		return 0
 
 
+
+
+
 def upSpike(p, i):
 	n = len(p)
 	if(Above(p[i], p[(i-1)%n]) and Above(p[i], p[(i+1)%n])):
@@ -64,10 +67,25 @@ def downSpike(p, i):
 def orderedDCEL(d, point, n, face):
 	edge = d.findEdgeUsingOrigin(point, 1)
 	orderedDcel = []
+	list = []
 	for i in range(0, n):
-		orderedDcel.append(edge)
+		list = []
+		list.append(edge)
+		orderedDcel.append(list)
 		edge = edge.next
 	return orderedDcel
+
+
+def insertEdgeUsingOd(od, d, n, event, i, node):
+	for j in range(0, len(od[event[i]])):
+		for k in range(0, len(od[node.value.topIndex])):
+			if(od[node.value.topIndex][k].face == od[event[i]][j].face):
+				ne = d.insertEdge(od[event[i]][j], od[node.value.topIndex][k])
+				nt = ne.twin
+				od[ne.originInd].append(ne)
+				od[nt.originInd].append(nt)
+				#naux = od[ne.originInd][ne.face]
+	
 
 def leftEdge(p, i, n):
 	if(left(p[i],p[(i-1)%n], p[(i+1)%n])):
@@ -78,6 +96,7 @@ def downEdge(p, i, n):
 	if(Above(p[i], p[(i-1)%n])):
 		return -1
 	return 1
+
 
 # Hipotese - Poligono simples e eh dado em sentido anti horario	
 def LeePreparata(p):
@@ -103,12 +122,13 @@ def LeePreparata(p):
 				left = leftEdge(p, event[i], n)
 				trap1 = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, p[event[i]], p[(event[i]+left)%n])
 				trap2 = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]-left)%n], node.value.reo, node.value.red)
-				d.insertEdge(od[event[i]], od[node.value.topIndex])
+				#d.insertEdge(od[event[i]], od[node.value.topIndex])
+				insertEdgeUsingOd(od, d, n, event, i, node)
 				t.remove(node)
 				t.insert(trap1)
 				t.insert(trap2)
 				print "Ok"
-				print str(od[event[i]].origin)+str(od[node.value.topIndex].origin)
+				print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 
 			#Caso haja trapezio em cima
 
@@ -126,11 +146,13 @@ def LeePreparata(p):
 				t.remove(suc)
 				t.insert(trap)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					d.insertEdge(od[event[i]], od[node.value.topIndex])
-					print str(od[event[i]].origin)+str(od[node.value.topIndex].origin)
+					#d.insertEdge(od[event[i]], od[node.value.topIndex])
+					insertEdgeUsingOd(od, d, n, event, i, node)
+					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 				if(downSpike(p, suc.value.topIndex) and abs(event[i]-suc.value.topIndex) > 1):
-					d.insertEdge(od[event[i]], od[suc.value.topIndex])
-					print str(od[event[i]].origin)+str(od[suc.value.topIndex].origin)
+					#d.insertEdge(od[event[i]], od[suc.value.topIndex])
+					insertEdgeUsingOd(od, d, n, event, i, suc)
+					print str(od[event[i]][0].origin)+str(od[suc.value.topIndex][0].origin)
 			elif(pred != None and pred.value.equal(p[event[i]])):
 				print "Tb esta no trap predecessor"
 				trap = trapezoid(p[event[i]], event[i], pred.value.leo, pred.value.led, node.value.reo, node.value.red)
@@ -139,18 +161,21 @@ def LeePreparata(p):
 				t.insert(trap)
 				# Se o ponto do trapezio for ponta pra baixo e nao for adjacente ao ponto evento entao adiciona diagonal
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					d.insertEdge(od[event[i]], od[node.value.topIndex])
-					print str(od[event[i]].origin)+str(od[node.value.topIndex].origin)
+					#d.insertEdge(od[event[i]], od[node.value.topIndex])
+					insertEdgeUsingOd(od, d, n, event, i, node)
+					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 				if(downSpike(p, pred.value.topIndex) and abs(event[i]-pred.value.topIndex) > 1):
-					d.insertEdge(od[event[i]], od[pred.value.topIndex])
-					print str(od[event[i]].origin)+str(od[pred.value.topIndex].origin)
+					#d.insertEdge(od[event[i]], od[pred.value.topIndex])
+					insertEdgeUsingOd(od, d, n, event, i, pred)
+					print str(od[event[i]][0].origin)+str(od[pred.value.topIndex][0].origin)
 			# Caso so haja um trapezio em cima do ponto evento
 			else:
 				print "So esta em 1 trapezio"
 				t.remove(node)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					d.insertEdge(od[event[i]], od[node.value.topIndex])
-					print str(od[event[i]].origin)+str(od[node.value.topIndex].origin)
+					#d.insertEdge(od[event[i]], od[node.value.topIndex])
+					insertEdgeUsingOd(od, d, n, event, i, node)
+					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 
 		else:
 			print "Caso 1   "+str(event[i])
@@ -162,9 +187,18 @@ def LeePreparata(p):
 			else:
 				trap = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, p[event[i]], p[(event[i]+downEdge(p, event[i], n))%n])
 			if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					d.insertEdge(od[event[i]], od[node.value.topIndex])
-					print str(od[event[i]].origin)+str(od[node.value.topIndex].origin)
+					#d.insertEdge(od[event[i]], od[node.value.topIndex])
+					insertEdgeUsingOd(od, d, n, event, i, node)
+					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 			t.insert(trap)
+
+
+	print "\n\n\n"
+	for i in range(0, len(d.faces)):
+		print "Face "+str(i)
+		d.printFaceVertices(i)
+	print "\n\n\n"
+
 
 	TriangMonotoneUsingDCEL(d)
 	return 0
