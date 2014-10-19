@@ -51,7 +51,6 @@ def RecMergeSort(v):
 	inter1 = RecMergeSort({'point' : v['point'][mid:], 'index' : v['index'][mid:]})
 	inter2 = RecMergeSort(({'point' : v['point'][:mid], 'index' : v['index'][:mid]}))
 	return Merge(inter1,inter2)
-	#return Merge( RecMergeSort({'point' : v['point'][mid:], 'index' : v['index'][mid:]}), RecMergeSort(({'point' : v['point'][:mid], 'index' : v['index'][:mid]})) )
 
 
 def MergeSort(p, ind):

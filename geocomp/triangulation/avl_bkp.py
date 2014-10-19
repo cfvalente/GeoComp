@@ -1,42 +1,56 @@
+
+
 class node():
-	def __init__(self, value):
-		self.value = value
+	def __init__(self, seg):
+		self.seg = seg
 		self.parent = None
 		self.left = None
 		self.right = None
 		self.height = 1
 
 
-	def setValue(self, value):
-		self.value = value
+	def setValue(self, seg):
+		self.seg = seg
 
 
 	def setValueN(self, n):
-		self.value = n.value
+		self.seg = n.seg
 
 
 	def greater(self, val):
-		return self.value.greater(val)
+		if(self.seg < val):
+			return 1
+		return 0
 
 
 	def greaterEqual(self, val):
-		return self.value.greaterEqual(val)
+		if(self.seg <= val):
+			return 1
+		return 0
 
 
 	def equal(self, val):
-		return self.value.equal(val)
+		if(self.seg == val):
+			return 1
+		return 0
 
 
 	def greaterN(self, n):
-		return self.value.greaterN(n)
+		if(self.seg < n.seg):
+			return 1
+		return 0
 
 
 	def greaterEqualN(self, n):
-		return self.value.greaterEqualN(n)
+		if(self.seg <= n.seg):
+			return 1
+		return 0
 
 
 	def equalN(self, n):
-		return self.value.greaterEqualN(n)
+		if(self.seg == n.seg):
+			return 1
+		return 0
 
 
 def getHeight(node):
@@ -56,19 +70,19 @@ class avl():
 		self.root = None
 
 
-	def findNodeRec(self, treeNode, value):
+	def findNodeRec(self, treeNode, seg):
 		if(treeNode == None):
 			return None
-		if(treeNode.equal(value)):
+		if(treeNode.equal(seg)):
 			return treeNode
-		if(treeNode.greater(value)):
-			return self.findNodeRec(treeNode.right, value)
+		if(treeNode.greater(seg)):
+			return self.findNodeRec(treeNode.right, seg)
 		else:
-			return self.findNodeRec(treeNode.left, value)
+			return self.findNodeRec(treeNode.left, seg)
 
 
-	def findNode(self, value):
-		return self.findNodeRec(self.root, value)
+	def findNode(self, seg):
+		return self.findNodeRec(self.root, seg)
 
 
 	def maximum(self):
@@ -157,8 +171,6 @@ class avl():
 		treeNode.height = getHeight(treeNode)
 		R.height = getHeight(R)
 
-
-	# Faz o balanceamento da arvore - diferenca em altura das duas subarvores de cada no nao pode ser maior que 2
 	def balance(self, treeNode):
 		lHeight = getHeight(treeNode.left)
 		rHeight = getHeight(treeNode.right)
@@ -181,7 +193,8 @@ class avl():
 
 
 	def insertRec(self, treeNode, newNode):
-		if(treeNode.greaterN(newNode.value)):
+		#criterio de comparacao, talvez seja necessario alterar
+		if(treeNode.greaterN(newNode)):
 			if(treeNode.right == None):
 				treeNode.right = newNode
 				newNode.parent = treeNode
@@ -196,9 +209,9 @@ class avl():
 		treeNode.height = getHeight(treeNode)
 		self.balance(treeNode)
 
-	# Insere um trapezio na arvore
-	def insert(self, value):
-		newNode = node(value)
+
+	def insert(self, seg):
+		newNode = node(seg)
 		if(self.root == None):
 			self.root = newNode
 		else:
@@ -225,16 +238,17 @@ class avl():
 		suc = self.findSucessorForRemovalRec(treeNode.right)
 		return suc
 
-	def removeRec(self, treeNode, value):
+
+	def removeRec(self, treeNode, seg):
 		#busca o node do elemento
-		if(treeNode.greaterN(value)):
+		if(treeNode.greater(seg)):
 			if(treeNode.right != None):
-				self.removeRec(treeNode.right, value)
+				self.removeRec(treeNode.right, seg)
 			else:
 				return 0
-		elif(not treeNode.greaterEqualN(value)):
+		elif(not treeNode.greaterEqual(seg)):
 			if(treeNode.left != None):
-				self.removeRec(treeNode.left, value)
+				self.removeRec(treeNode.left, seg)
 			else:
 				return 0
 		# encontra o node do elemento
@@ -291,11 +305,11 @@ class avl():
 		self.balance(treeNode)
 		return 0
 
-	# Remove o trapezio dado em value da arvore
-	def remove(self,value):
+
+	def remove(self,seg):
 		treeNode = self.root
 		if not(treeNode == None):
-			self.removeRec(treeNode, value)
+			self.removeRec(treeNode, seg)
 		return 1
 
 
@@ -310,46 +324,46 @@ def predecessorSucessorTest():
 	tree.insert(-20)
 	tree.insert(-30)
 	tree.insert(-10)
-	if(not(tree.predecessor(tree.findNode(3)).value==2)):
+	if(not(tree.predecessor(tree.findNode(3)).seg==2)):
 		print("Error!")
 		return 0
 	if(not(tree.sucessor(tree.findNode(3))==None)):
 		print("Error!")
 		return 0
-	if(not(tree.predecessor(tree.findNode(2)).value==-10)):
+	if(not(tree.predecessor(tree.findNode(2)).seg==-10)):
 		print("Error!")
 		return 0
-	if(not(tree.sucessor(tree.findNode(2)).value==3)):
+	if(not(tree.sucessor(tree.findNode(2)).seg==3)):
 		print("Error!")
 		return 0
-	if(not(tree.predecessor(tree.findNode(-10)).value==-20)):
+	if(not(tree.predecessor(tree.findNode(-10)).seg==-20)):
 		print("Error!")
 		return 0
-	if(not(tree.sucessor(tree.findNode(-10)).value==2)):
+	if(not(tree.sucessor(tree.findNode(-10)).seg==2)):
 		print("Error!")
 		return 0
-	if(not(tree.predecessor(tree.findNode(-20)).value==-30)):
+	if(not(tree.predecessor(tree.findNode(-20)).seg==-30)):
 		print("Error!")
 		return 0
-	if(not(tree.sucessor(tree.findNode(-20)).value==-10)):
+	if(not(tree.sucessor(tree.findNode(-20)).seg==-10)):
 		print("Error!")
 		return 0
-	if(not(tree.predecessor(tree.findNode(-30)).value==-40)):
+	if(not(tree.predecessor(tree.findNode(-30)).seg==-40)):
 		print("Error!")
 		return 0
-	if(not(tree.sucessor(tree.findNode(-30)).value==-20)):
+	if(not(tree.sucessor(tree.findNode(-30)).seg==-20)):
 		print("Error!")
 		return 0
-	if(not(tree.predecessor(tree.findNode(-40)).value==-60)):
+	if(not(tree.predecessor(tree.findNode(-40)).seg==-60)):
 		print("Error!")
 		return 0
-	if(not(tree.sucessor(tree.findNode(-40)).value==-30)):
+	if(not(tree.sucessor(tree.findNode(-40)).seg==-30)):
 		print("Error!")
 		return 0
 	if(not(tree.predecessor(tree.findNode(-60))==None)):
 		print("Error!")
 		return 0
-	if(not(tree.sucessor(tree.findNode(-60)).value==-40)):
+	if(not(tree.sucessor(tree.findNode(-60)).seg==-40)):
 		print("Error!")
 		return 0	
 	return 1
@@ -362,10 +376,10 @@ def balancingTest():
 	tree.insert(3)
 	tree.insert(6)
 	tree.insert(5.5)
-	if not(tree.root.right.value == 5.5):
+	if not(tree.root.right.seg == 5.5):
 		print("Error!");
 		return 0
-	if not(tree.root.right.left.value == 5):
+	if not(tree.root.right.left.seg == 5):
 		print("Error!");
 		return 0
 	tree2 = avl()
@@ -394,7 +408,7 @@ def removeTest():
 	tree.remove(1)
 	tree.insert(1)
 	tree.remove(0)
-	if not (tree.root.value == 1):
+	if not (tree.root.seg == 1):
 		print("Error!")
 		return 0
 	tree2 = avl()
@@ -407,7 +421,7 @@ def removeTest():
 	tree2.insert(6)
 	tree2.insert(7)
 	tree2.remove(4)
-	if not (tree2.root.value == 5 and tree2.root.right.value == 6):
+	if not (tree2.root.seg == 5 and tree2.root.right.seg == 6):
 		print("Error!")
 		return 0
 
@@ -421,7 +435,7 @@ def removeTest():
 	tree3.insert(6)
 	tree3.insert(7)
 	tree3.remove(5.5)
-	if not (tree3.root.value == 4 and tree3.root.right.value == 6 and tree3.root.right.left.value == 5):
+	if not (tree3.root.seg == 4 and tree3.root.right.seg == 6 and tree3.root.right.left.seg == 5):
 		print("Error!")
 		return 0
 
@@ -435,7 +449,7 @@ def removeTest():
 	tree4.insert(48)
 	tree4.insert(62)
 	tree4.remove(32)
-	if not(tree4.root.value == 50):
+	if not(tree4.root.seg == 50):
 		print("Error!")
 		return 0
 
@@ -453,7 +467,7 @@ def removeTest():
 	tree5.insert(55)
 	tree5.insert(1)
 	tree5.remove(80)
-	if not(tree5.root.value == 25):
+	if not(tree5.root.seg == 25):
 		print("Error!")
 		return 0
 	tree6 = avl()
@@ -465,7 +479,7 @@ def removeTest():
 		tree6.remove(i)
 	for i in range(596, 600):
 		tree6.remove(i)
-	if not(tree6.root.value == 595):
+	if not(tree6.root.seg == 595):
 		print("Error!")
 		return 0
 

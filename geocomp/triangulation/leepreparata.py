@@ -4,7 +4,7 @@ from geocomp.triangulation.dcel import *
 from geocomp.triangulation.avl import *
 from geocomp.triangulation.mergesort import MergeSort
 
-class tetrahedron():
+class trapezoid():
 	def __init__(self, top, ledge_origin, ledge_destiny, redge_origin, redge_destiny):
 		self.top = top
 		self.leo = ledge_origin
@@ -12,44 +12,38 @@ class tetrahedron():
 		self.reo = redge_origin
 		self.red = redge_destiny
 
-
-
-	def insideTetrahedron(self, point):
-		return self.equal(point)
-
+	# point > self
 	def greater(self, point):
-		if(left(self.leo, self.led, point) and left(self.reo, self.red, point)):
+		if(right(self.leo, self.led, point)):
 			return 1
 		return 0
 
-
+	# point >= self
 	def greaterEqual(self, point):
-		if(left_on(self.leo, self.led, point)):
+		if(right_on(self.reo, self.red, point)):
 			return 1
 		return 0
 
-
+	# point == self.value
 	def equal(self, point):
 		if(left_on(self.leo, self.led, point) and right_on(self.reo, self.red, point)):
 			return 1 
 		return 0
 
-
+	# n > self
 	def greaterN(self, n):
-		if(self.seg < n.seg):
+		if(right(n.reo, n.red, self.top)):
 			return 1
 		return 0
-
-
+	# n >= self
 	def greaterEqualN(self, n):
-		if(self.seg <= n.seg):
+		if(left_on(n.leo, n.led, self.top)):
 			return 1
 		return 0
-
-
+	# n == self
 	def equalN(self, n):
-		if(self.seg == n.seg):
-			return 1
+		if(left_on(n.leo, n.led, self.top) and right_on(n.reo, n.red, self.top)):
+			return 1 
 		return 0
 
 
@@ -68,13 +62,25 @@ def upTip(p, i):
 
 def LeePreparata(p):
 	print ""
+	n = len(p)
 	t = avl()
 	d = dcel()
 	d.createDCELfromPolygon(p)
-	event = MergeSort(p, range(0, len(p)))
-	for i in range(0, len(event)):
+	event = MergeSort(p, range(0, n))
+	for i in range(0, n):
 		if(downTip(p, event[i])):
 			print "Caso 2   "+str(event[i])
+
+			node = t.findNode(p[event[i]])
+			if(node == None):
+				trap = trapezoid(p[event[i]], p[event[i]], p[(event[i]+1)%n], p[event[i]], p[(event[i]-1)%n])
+				t.insert(trap)
+			else:
+				print "Ok"
+
+			#Caso haja trapezio em cima
+
+
 		elif(upTip(p, event[i])):
 			print "Caso 3   "+str(event[i])
 		else:
