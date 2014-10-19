@@ -16,13 +16,13 @@ class trapezoid():
 
 	# point > self
 	def greater(self, point):
-		if(left(self.leo, self.led, point)):
+		if(left(self.reo, self.red, point)):
 			return 1
 		return 0
 
 	# point >= self
 	def greaterEqual(self, point):
-		if(left_on(self.reo, self.red, point)):
+		if(left_on(self.leo, self.led, point)):
 			return 1
 		return 0
 
@@ -39,7 +39,7 @@ class trapezoid():
 		return 0
 	# n >= self
 	def greaterEqualN(self, n):
-		if(left_on(n.reo, n.red, self.top)):
+		if(right_on(n.reo, n.red, self.top)):
 			return 1
 		return 0
 	# n == self
@@ -165,6 +165,7 @@ def LeePreparata(p):
 			if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
 					d.insertEdge(od[event[i]], od[node.value.topIndex], IND_FACE)
 					print str(od[event[i]].origin)+str(od[node.value.topIndex].origin)
+			t.insert(trap)
 
 		#TriangMonotoneUsingDCEL(d)
 	return 0
