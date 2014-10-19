@@ -37,10 +37,8 @@ def generateDecreasingVerticeList(dcel, face):
 	minEdge = dcel.faces[face]
 	maxEdge = dcel.faces[face]
 	origin = dcel.faces[face].origin
-	dcel.faces[face].counter = 1
 	e = dcel.faces[face].next
 	while(e.origin != origin):
-		e.counter = 1
 		if(Above(e.origin, maxEdge.origin)):
 			maxEdge = e
 		if(Above(minEdge.origin, e.origin)):
@@ -66,31 +64,6 @@ def Adjacent(e1, e2):
 	return False
 
 
-def Angle(p, q, r):
-	p.x = 0
-	p.y = 0
-	q.x = 5
-	q.y = 5
-	r.x = 5
-	r.y = -5
-
-
-	v1x = q.x-p.x
-	v1y = q.y-p.y
-	v2x = r.x-p.x
-	v2y = r.y-p.y
-	n1 = sqrt(v1x*v1x+v1y*v1y)
-	n2 = sqrt(v2x*v2x+v2y*v2y)
-	v1xn = v1x/n1
-	v1yn = v1y/n1
-	v2xn = v2x/n2
-	v2yn = v2y/n2
-	cos = v1xn*v2xn+v1yn*v2yn
-	ang = acos(v1xn*v2xn+v1yn*v2yn)
-
-	#ang1 = Angle(Point(0,0), Point(5,5), Point(-5,-5))
-	return ang
-
 def Reflex(ui, st, stt):
 	#Entao estamos na parte crescente do poligono - parte direita considerando sentido anti horario - com isso basta checar
 	if(Above(st.next.origin, st.origin)):
@@ -101,48 +74,46 @@ def Reflex(ui, st, stt):
 
 def TriangMonotoneUsingDCEL(d):
 	for f in range(1, len(d.faces)):
-		if(d.faces[f].counter == 0):
-			event = generateDecreasingVerticeList(d, f)
-			s = stack()
+		event = generateDecreasingVerticeList(d, f)
+		s = stack()
 
-			s1 = event[0]
-			s.insert(event[0])
-			s.insert(event[1])
+		s1 = event[0]
+		s.insert(event[0])
+		s.insert(event[1])
 
-			for i in range(2, len(event)):
-				st = s.getTop()
-
-
-
-				if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
-					#if( s.size > 1 and Angle(st.origin, event[i].origin, s.getSecond().origin) < 3.14159265358979323846):
-					while( s.size > 1 and not Reflex(event[i], st, s.getSecond())):
-						s.remove()
-						st = s.getTop()
-						print(str(event[i].origin)+" "+str(st.origin))
-					s.insert(event[i])
+		for i in range(2, len(event)):
+			st = s.getTop()
 
 
 
-				elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
-					while(s.size > 1):
-						print(str(event[i].origin)+" "+str(s.getTop().origin))
-						s.remove()
+			if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
+				while( s.size > 1 and not Reflex(event[i], st, s.getSecond())):
 					s.remove()
-					s.insert(st)
-					s.insert(event[i])
-					s1 = st
+					st = s.getTop()
+					print(str(event[i].origin)+" "+str(st.origin))
+				s.insert(event[i])
 
 
 
-				elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
+			elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
+				while(s.size > 1):
+					print(str(event[i].origin)+" "+str(s.getTop().origin))
 					s.remove()
-					while(s.size > 1):
-						print(str(event[i].origin)+" "+str(s.getTop().origin))
-						s.remove()
+				s.remove()
+				s.insert(st)
+				s.insert(event[i])
+				s1 = st
 
-				else:
-					print "wtf"
+
+
+			elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
+				s.remove()
+				while(s.size > 1):
+					print(str(event[i].origin)+" "+str(s.getTop().origin))
+					s.remove()
+
+			else:
+				print "wtf"
 
 
 	return 0
@@ -153,31 +124,6 @@ def Monotone(p):
 	print ""
 	d = dcel()
 	d.createDCELfromPolygon(p)
-
-
-	e1 = d.faces[1]
-	e2 = e1.next.next
-	d.insertEdge(e2,e1,1)
-
-	u = d.findFace(e1)
-	u = d.findFace(e1.next)
-	u = d.findFace(e1.next.next)
-	
-	u = d.findFace(e2)
-	u = d.findFace(e2.next)
-	u = d.findFace(e2.next.next)
-
-	print "Zero"
-	d.printFaceVertices(0)
-	print "Um"
-	d.printFaceVertices(1)
-	print "Dois"
-	d.printFaceVertices(2)
-
-
-
-
-
 
 	TriangMonotoneUsingDCEL(d)
 

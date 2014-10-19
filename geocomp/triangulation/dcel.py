@@ -7,7 +7,6 @@ class edge():
 		self.next = None
 		self.previous = None
 		self.twin = None
-		self.counter = 0
 		self.face = 0
 
 
