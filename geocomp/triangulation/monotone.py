@@ -37,14 +37,15 @@ def generateDecreasingVerticeList(dcel, face):
 	minEdge = dcel.faces[face]
 	maxEdge = dcel.faces[face]
 	origin = dcel.faces[face].origin
-
+	dcel.faces[face].counter = 1
 	e = dcel.faces[face].next
 	while(e.origin != origin):
-			if(Above(e.origin, maxEdge.origin)):
-				maxEdge = e
-			if(Above(minEdge.origin, e.origin)):
-				minEdge = e
-			e = e.next
+		e.counter = 1
+		if(Above(e.origin, maxEdge.origin)):
+			maxEdge = e
+		if(Above(minEdge.origin, e.origin)):
+			minEdge = e
+		e = e.next
 
 	e = maxEdge
 	while(e.origin != minEdge.origin):
@@ -100,47 +101,48 @@ def Reflex(ui, st, stt):
 
 def TriangMonotoneUsingDCEL(d):
 	for f in range(1, len(d.faces)):
-		event = generateDecreasingVerticeList(d, f)
-		s = stack()
+		if(d.faces[f].counter == 0):
+			event = generateDecreasingVerticeList(d, f)
+			s = stack()
 
-		s1 = event[0]
-		s.insert(event[0])
-		s.insert(event[1])
+			s1 = event[0]
+			s.insert(event[0])
+			s.insert(event[1])
 
-		for i in range(2, len(event)):
-			st = s.getTop()
+			for i in range(2, len(event)):
+				st = s.getTop()
 
 
 
-			if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
-				#if( s.size > 1 and Angle(st.origin, event[i].origin, s.getSecond().origin) < 3.14159265358979323846):
-				while( s.size > 1 and not Reflex(event[i], st, s.getSecond())):
+				if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
+					#if( s.size > 1 and Angle(st.origin, event[i].origin, s.getSecond().origin) < 3.14159265358979323846):
+					while( s.size > 1 and not Reflex(event[i], st, s.getSecond())):
+						s.remove()
+						st = s.getTop()
+						print(str(event[i].origin)+" "+str(st.origin))
+					s.insert(event[i])
+
+
+
+				elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
+					while(s.size > 1):
+						print(str(event[i].origin)+" "+str(s.getTop().origin))
+						s.remove()
 					s.remove()
-					st = s.getTop()
-					print(str(event[i].origin)+" "+str(st.origin))
-				s.insert(event[i])
+					s.insert(st)
+					s.insert(event[i])
+					s1 = st
 
 
 
-			elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
-				while(s.size > 1):
-					print(str(event[i].origin)+" "+str(s.getTop().origin))
+				elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
 					s.remove()
-				s.remove()
-				s.insert(st)
-				s.insert(event[i])
-				s1 = st
+					while(s.size > 1):
+						print(str(event[i].origin)+" "+str(s.getTop().origin))
+						s.remove()
 
-
-
-			elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
-				s.remove()
-				while(s.size > 1):
-					print(str(event[i].origin)+" "+str(s.getTop().origin))
-					s.remove()
-
-			else:
-				print "wtf"
+				else:
+					print "wtf"
 
 
 	return 0

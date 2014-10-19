@@ -1,12 +1,12 @@
 class edge():
 
-	def __init__(self, origin, destiny, face):
+	def __init__(self, origin, destiny):
 		self.origin = origin
 		self.destiny = destiny
 		self.next = None
 		self.previous = None
-		self.incidentFace = face #provavelmente nao sera necessario - verificar no algoritmo lee e preparata, basta guardar 1 das arestas de cada face, o que 'ja eh feito em dcel
 		self.twin = None
+		self.counter = 0
 
 
 
@@ -20,8 +20,8 @@ class dcel():
 		n = len(p)
 
 
-		ie = edge(p[0], p[1], 1)
-		it = edge(p[1], p[0], -1)
+		ie = edge(p[0], p[1])
+		it = edge(p[1], p[0])
 
 		ie.twin = it
 		it.twin = ie
@@ -31,8 +31,8 @@ class dcel():
 
 		for i in range(1, n):
 
-			e = edge(p[(i)%n], p[(i+1)%n], 1)
-			t = edge(p[(i+1)%n], p[(i)%n], -1)
+			e = edge(p[(i)%n], p[(i+1)%n])
+			t = edge(p[(i+1)%n], p[(i)%n])
 
 			e.twin = t
 			t.twin = e
@@ -91,9 +91,9 @@ class dcel():
 		return e
 
 	# Nova aresta entre as origem da aresta1 ate a origem da aresta2
-	def insertEdge(self, edge1, edge2, face):
-		ne = edge(edge2.origin, edge1.origin, edge1.incidentFace)
-		nt = edge(edge1.origin, edge2.origin, len(self.faces))
+	def insertEdge(self, edge1, edge2):
+		ne = edge(edge2.origin, edge1.origin)
+		nt = edge(edge1.origin, edge2.origin)
 		ne.twin = nt
 		nt.twin = ne
 
@@ -109,7 +109,7 @@ class dcel():
 		edge2.previous.next = ne
 		edge2.previous = nt
 
-		self.faces[face] = ne
+		self.faces.append(ne)
 		self.faces.append(nt)
 
 		return
