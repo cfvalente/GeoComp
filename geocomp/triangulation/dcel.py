@@ -80,6 +80,16 @@ class dcel():
 			edge = edge.next
 		return -1
 
+	def findEdgeUsingOrigin(self, point, face):
+		e = self.faces[face]
+		eo = e.origin
+		if(e.origin == point):
+			return e
+		e = e.next
+		while(e.origin != point):
+			e = e.next
+		return e
+
 	# Nova aresta entre as origem da aresta1 ate a origem da aresta2
 	def insertEdge(self, edge1, edge2, face):
 		ne = edge(edge2.origin, edge1.origin, edge1.incidentFace)
