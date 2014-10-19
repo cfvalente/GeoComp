@@ -64,6 +64,17 @@ def downSpike(p, i):
 		return True
 	return False
 
+def leftEdge(p, i, n):
+	if(left(p[i],p[(i-1)%n], p[(i+1)%n])):
+		return -1
+	return 1
+
+def downEdge(p, i, n):
+	if(Above(p[i], p[(i-1)%n])):
+		return -1
+	return 1
+
+# Indexando as arestas pelos indices dos vertices - usando origem da aresta como base
 def orderedDCEL(d, point, n, face):
 	edge = d.findEdgeUsingOrigin(point, 1)
 	orderedDcel = []
@@ -75,28 +86,15 @@ def orderedDCEL(d, point, n, face):
 		edge = edge.next
 	return orderedDcel
 
-
-def insertEdgeUsingOd(od, d, n, event, i, node):
-	for j in range(0, len(od[event[i]])):
+def insertEdgeUsingOd(od, d, i, node):
+	for j in range(0, len(od[i])):
 		for k in range(0, len(od[node.value.topIndex])):
-			if(od[node.value.topIndex][k].face == od[event[i]][j].face):
-				ne = d.insertEdge(od[event[i]][j], od[node.value.topIndex][k])
+			if(od[node.value.topIndex][k].face == od[i][j].face):
+				ne = d.insertEdge(od[i][j], od[node.value.topIndex][k])
 				nt = ne.twin
 				od[ne.originInd].append(ne)
 				od[nt.originInd].append(nt)
-				#naux = od[ne.originInd][ne.face]
 	
-
-def leftEdge(p, i, n):
-	if(left(p[i],p[(i-1)%n], p[(i+1)%n])):
-		return -1
-	return 1
-
-def downEdge(p, i, n):
-	if(Above(p[i], p[(i-1)%n])):
-		return -1
-	return 1
-
 
 # Hipotese - Poligono simples e eh dado em sentido anti horario	
 def LeePreparata(p):
@@ -107,10 +105,13 @@ def LeePreparata(p):
 	d.createDCELfromPolygon(p)
 	od = orderedDCEL(d, p[0], n, 1)
 	event = MergeSort(p, range(0, n))
-	for i in range(0, n):
-		if(upSpike(p, event[i])):
-			print "Caso 2   "+str(event[i])
 
+
+	for i in range(0, n):
+
+
+		# Caso 2 - Ponta para cima
+		if(upSpike(p, event[i])):
 			node = t.findNode(p[event[i]])
 			# Caso nao haja trapezio em cima de do ponto evento
 			if(node == None):
@@ -122,82 +123,69 @@ def LeePreparata(p):
 				left = leftEdge(p, event[i], n)
 				trap1 = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, p[event[i]], p[(event[i]+left)%n])
 				trap2 = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]-left)%n], node.value.reo, node.value.red)
-				#d.insertEdge(od[event[i]], od[node.value.topIndex])
-				insertEdgeUsingOd(od, d, n, event, i, node)
+				insertEdgeUsingOd(od, d, event[i], node)
 				t.remove(node)
 				t.insert(trap1)
 				t.insert(trap2)
-				print "Ok"
 				print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 
-			#Caso haja trapezio em cima
 
-		# Caso 3 - Ponta para cima
+		# Caso 3 - Ponta para baixo
 		elif(downSpike(p, event[i])):
-			print "Caso 3   "+str(event[i])
 			node = t.findNode(p[event[i]])
 			suc = t.sucessor(node)
 			pred = t.predecessor(node)
 			# Caso haja dois trapezios em cima do ponto evento
 			if(suc != None and suc.value.equal(p[event[i]])):
-				print "Tb esta no trap sucessor"
 				trap = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, suc.value.reo, suc.value.red)
 				t.remove(node)
 				t.remove(suc)
 				t.insert(trap)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					#d.insertEdge(od[event[i]], od[node.value.topIndex])
-					insertEdgeUsingOd(od, d, n, event, i, node)
+					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 				if(downSpike(p, suc.value.topIndex) and abs(event[i]-suc.value.topIndex) > 1):
-					#d.insertEdge(od[event[i]], od[suc.value.topIndex])
-					insertEdgeUsingOd(od, d, n, event, i, suc)
+					insertEdgeUsingOd(od, d, event[i], suc)
 					print str(od[event[i]][0].origin)+str(od[suc.value.topIndex][0].origin)
 			elif(pred != None and pred.value.equal(p[event[i]])):
-				print "Tb esta no trap predecessor"
 				trap = trapezoid(p[event[i]], event[i], pred.value.leo, pred.value.led, node.value.reo, node.value.red)
 				t.remove(node)
 				t.remove(pred)
 				t.insert(trap)
-				# Se o ponto do trapezio for ponta pra baixo e nao for adjacente ao ponto evento entao adiciona diagonal
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					#d.insertEdge(od[event[i]], od[node.value.topIndex])
-					insertEdgeUsingOd(od, d, n, event, i, node)
+					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 				if(downSpike(p, pred.value.topIndex) and abs(event[i]-pred.value.topIndex) > 1):
-					#d.insertEdge(od[event[i]], od[pred.value.topIndex])
-					insertEdgeUsingOd(od, d, n, event, i, pred)
+					insertEdgeUsingOd(od, d, event[i], pred)
 					print str(od[event[i]][0].origin)+str(od[pred.value.topIndex][0].origin)
+
 			# Caso so haja um trapezio em cima do ponto evento
 			else:
-				print "So esta em 1 trapezio"
 				t.remove(node)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					#d.insertEdge(od[event[i]], od[node.value.topIndex])
-					insertEdgeUsingOd(od, d, n, event, i, node)
+					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 
+		
+		# Caso 1 - Uma aresta para cima e outra para baixo			
 		else:
-			print "Caso 1   "+str(event[i])
 			node = t.findNode(p[event[i]])
 			t.remove(node)
-			# Esta na parte esquerda
 			if(collinear(node.value.leo, node.value.led, p[event[i]])):
 				trap = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]+downEdge(p, event[i], n))%n], node.value.reo, node.value.red)
 			else:
 				trap = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, p[event[i]], p[(event[i]+downEdge(p, event[i], n))%n])
 			if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
-					#d.insertEdge(od[event[i]], od[node.value.topIndex])
-					insertEdgeUsingOd(od, d, n, event, i, node)
+					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 			t.insert(trap)
 
 
-	print "\n\n\n"
-	for i in range(0, len(d.faces)):
-		print "Face "+str(i)
-		d.printFaceVertices(i)
-	print "\n\n\n"
+	#print "\n\n\n"
+	#for i in range(0, len(d.faces)):
+	#	print "Face "+str(i)
+	#	d.printFaceVertices(i)
+	#print "\n\n\n"
 
 
 	TriangMonotoneUsingDCEL(d)
