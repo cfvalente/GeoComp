@@ -94,6 +94,7 @@ def insertEdgeUsingOd(od, d, i, node):
 				nt = ne.twin
 				od[ne.originInd].append(ne)
 				od[nt.originInd].append(nt)
+				return
 	
 
 # Hipotese - Poligono simples e eh dado em sentido anti horario	
