@@ -18,26 +18,11 @@ class node():
 	def greater(self, val):
 		return self.value.greater(val)
 
-
-	def greaterEqual(self, val):
-		return self.value.greaterEqual(val)
-
-
 	def equal(self, val):
 		return self.value.equal(val)
 
-
 	def greaterN(self, n):
 		return self.value.greaterN(n)
-
-
-	def greaterEqualN(self, n):
-		return self.value.greaterEqualN(n)
-
-
-	def equalN(self, n):
-		return self.value.greaterEqualN(n)
-
 
 def getHeight(node):
 	l = 0
@@ -227,18 +212,7 @@ class avl():
 
 	def removeRec(self, treeNode, node):
 		#busca o node do elemento
-		if(treeNode.greaterN(node.value)):
-			if(treeNode.right != None):
-				self.removeRec(treeNode.right, node)
-			else:
-				return 0
-		elif(not treeNode.greaterEqualN(node.value)):
-			if(treeNode.left != None):
-				self.removeRec(treeNode.left, node)
-			else:
-				return 0
-		# encontra o node do elemento
-		else:
+		if(treeNode == node):
 			#node nao tem filhos, eh uma folha - simplesmente apaga e retorna para fazer o rebalanceamento do no acima
 			if(treeNode.left == None and treeNode.right == None):
 				#node eh a raiz
@@ -286,6 +260,17 @@ class avl():
 				else:
 					suc = self.findSucessorForRemoval(treeNode)
 					treeNode.setValueN(suc)
+
+		elif(treeNode.greaterN(node.value)):
+			if(treeNode.right != None):
+				self.removeRec(treeNode.right, node)
+			else:
+				return 0
+		else:
+			if(treeNode.left != None):
+				self.removeRec(treeNode.left, node)
+			else:
+				return 0
 
 		treeNode.height = getHeight(treeNode)
 		self.balance(treeNode)

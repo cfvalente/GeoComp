@@ -20,12 +20,6 @@ class trapezoid():
 			return 1
 		return 0
 
-	# point >= self
-	def greaterEqual(self, point):
-		if(left_on(self.leo, self.led, point)):
-			return 1
-		return 0
-
 	# point == self.value
 	def equal(self, point):
 		if(left_on(self.leo, self.led, point) and right_on(self.reo, self.red, point)):
@@ -34,21 +28,9 @@ class trapezoid():
 
 	# n > self
 	def greaterN(self, n):
-		if(right(n.reo, n.red, self.top) and right(n.reo, n.red, self.led) and right(n.reo, n.red, self.red)):
+		if(right(n.reo, n.red, self.top)):
 			return 1
 		return 0
-	# n >= self
-	def greaterEqualN(self, n):
-		if(right_on(n.reo, n.red, self.top) and right_on(n.reo, n.red, self.led) and right_on(n.reo, n.red, self.red)):
-			return 1
-		return 0
-	# n == self
-	def equalN(self, n):
-		if(left_on(n.leo, n.led, self.top) and right_on(n.reo, n.red, self.top)):
-			return 1 
-		return 0
-
-
 
 
 
