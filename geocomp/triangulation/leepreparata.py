@@ -34,12 +34,12 @@ class trapezoid():
 
 	# n > self
 	def greaterN(self, n):
-		if(right(n.leo, n.led, self.top)):
+		if(right(n.reo, n.red, self.top) and right(n.reo, n.red, self.led) and right(n.reo, n.red, self.red)):
 			return 1
 		return 0
 	# n >= self
 	def greaterEqualN(self, n):
-		if(right_on(n.reo, n.red, self.top)):
+		if(right_on(n.reo, n.red, self.top) and right_on(n.reo, n.red, self.led) and right_on(n.reo, n.red, self.red)):
 			return 1
 		return 0
 	# n == self
@@ -126,8 +126,8 @@ def LeePreparata(p):
 				trap2 = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]-left)%n], node.value.reo, node.value.red)
 				insertEdgeUsingOd(od, d, event[i], node)
 				t.remove(node)
-				t.insert(trap1)
 				t.insert(trap2)
+				t.insert(trap1)
 				print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 
 
