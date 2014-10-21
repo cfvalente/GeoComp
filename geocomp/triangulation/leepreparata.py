@@ -17,19 +17,21 @@ class trapezoid():
 	# point > self
 	def greater(self, point):
 		if(left(self.reo, self.red, point)):
+		#if(self.led.x < point.x and self.red.x < point.x):
 			return 1
 		return 0
 
 	# point == self.value
 	def equal(self, point):
 		if(left_on(self.leo, self.led, point) and right_on(self.reo, self.red, point)):
+		#if(self.led.x <= point.x and self.red.x >= point.x):
 			return 1 
 		return 0
 
 	# n > self
 	def greaterN(self, n):
-		#if(right(n.reo, n.red, self.top)):
-		if(left(self.reo, self.red, n.top)):
+		if((self.led.x <= n.led.x and self.red.x <= n.led.x) and (self.led.x <= n.red.x and self.red.x <= n.red.x)):
+		#if(left(self.reo, self.red, n.top)):
 			return 1
 		return 0
 
@@ -108,10 +110,10 @@ def LeePreparata(p):
 				trap1 = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, p[event[i]], p[(event[i]+left)%n])
 				trap2 = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]-left)%n], node.value.reo, node.value.red)
 				insertEdgeUsingOd(od, d, event[i], node)
+				print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 				t.remove(node)
 				t.insert(trap2)
 				t.insert(trap1)
-				print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 
 
 		# Caso 3 - Ponta para baixo
@@ -122,39 +124,38 @@ def LeePreparata(p):
 			# Caso haja dois trapezios em cima do ponto evento
 			if(suc != None and suc.value.equal(p[event[i]])):
 				trap = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, suc.value.reo, suc.value.red)
-				t.remove(node)
-				t.remove(suc)
-				t.insert(trap)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 				if(downSpike(p, suc.value.topIndex) and abs(event[i]-suc.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], suc)
-					print str(od[event[i]][0].origin)+str(od[suc.value.topIndex][0].origin)
+					print str(od[event[i]][0].origin)+str(od[suc.value.topIndex][0].origin)	
+				t.remove(node)
+				t.remove(suc)
+				t.insert(trap)
 			elif(pred != None and pred.value.equal(p[event[i]])):
 				trap = trapezoid(p[event[i]], event[i], pred.value.leo, pred.value.led, node.value.reo, node.value.red)
-				t.remove(node)
-				t.remove(pred)
-				t.insert(trap)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
 				if(downSpike(p, pred.value.topIndex) and abs(event[i]-pred.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], pred)
 					print str(od[event[i]][0].origin)+str(od[pred.value.topIndex][0].origin)
+				t.remove(node)
+				t.remove(pred)
+				t.insert(trap)
 
 			# Caso so haja um trapezio em cima do ponto evento
 			else:
-				t.remove(node)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
+				t.remove(node)
 
 		
 		# Caso 1 - Uma aresta para cima e outra para baixo			
 		else:
 			node = t.findNode(p[event[i]])
-			t.remove(node)
 			if(collinear(node.value.leo, node.value.led, p[event[i]])):
 				trap = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]+downEdge(p, event[i], n))%n], node.value.reo, node.value.red)
 			else:
@@ -162,6 +163,7 @@ def LeePreparata(p):
 			if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], node)
 					print str(od[event[i]][0].origin)+str(od[node.value.topIndex][0].origin)
+			t.remove(node)
 			t.insert(trap)
 
 
