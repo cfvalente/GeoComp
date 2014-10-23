@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 "Algoritmo Incremental"
 
 from geocomp.common.polygon import Polygon

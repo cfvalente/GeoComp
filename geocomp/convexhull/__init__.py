@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Algoritmos para o Problema do Fecho Convexo:
 
 Dado um conjunto de pontos, determinar o seu fecho convexo.

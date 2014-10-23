@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Implementacao "dummy" das operacoes graficas"""
 
 def init_display (app):

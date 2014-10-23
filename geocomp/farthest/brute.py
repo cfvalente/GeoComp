@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Algoritmo forca-bruta"""
 
 from geocomp.common.segment import Segment

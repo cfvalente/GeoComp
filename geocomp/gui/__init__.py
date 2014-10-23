@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Implementacoes das operacoes graficas usadas nos algoritmos
 
 Sub-modulos:

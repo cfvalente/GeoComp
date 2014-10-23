@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from geocomp.common.prim import * 
 from geocomp.triangulation.dcel import *
 from geocomp.triangulation.stack import *

@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Implementacao das operacoes graficas em Tk.
 
 Esse modulo nao deve ser usado diretamente. Para isso,

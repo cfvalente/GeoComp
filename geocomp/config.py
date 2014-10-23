@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # tamanho da area de desenho
 # WIDTH = 500
@@ -23,7 +21,7 @@ LINEWIDTH = 2
 #   de divisao e conquista, ...)
 LINEWIDTH_SPECIAL = 1
 
-# um ponto é desenhado como um circulo
+# um ponto  desenhado como um circulo
 # raio desse circulo para um ponto normal e em destaque
 #RADIUS = 2
 RADIUS = 3
@@ -54,7 +52,7 @@ COLOR_SEGMENT = 'red'
 COLOR_HI_SEGMENT = 'green'
 COLOR_HI_SEGMENT_POINT = 'red'
 
-# cor em que uma primitiva é desenhada
+# cor em que uma primitiva  desenhada
 COLOR_PRIM = 'yellow'
 
 # miscelania:

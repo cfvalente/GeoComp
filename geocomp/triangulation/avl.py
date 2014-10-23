@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 class node():
 	def __init__(self, value):
 		self.value = value

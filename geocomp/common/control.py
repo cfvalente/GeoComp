@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Controla a visualizacao dos algoritmos"""
 
 import time
@@ -14,7 +12,7 @@ def freeze_update (amount = 1):
 	"""Impede a atualizacao da tela.
 
 	Junto com thaw_update permite reduzir a quantidade de flicker
-	quando um segmento de reta é desenhado e apagado muitas vezes
+	quando um segmento de reta  desenhado e apagado muitas vezes
 	em seguida"""
 	global dont_update
 	dont_update = dont_update + amount
@@ -23,7 +21,7 @@ def thaw_update (amount = 1):
 	"""Permite a atualizacao da tela.
 
 	Junto com freeze_update permite reduzir a quantidade de flicker
-	quando um segmento de reta é desenhado e apagado muitas vezes
+	quando um segmento de reta  desenhado e apagado muitas vezes
 	em seguida"""
 	global dont_update
 	dont_update = dont_update - amount
@@ -72,7 +70,7 @@ def plot_disc (x, y, color, r):
 	return plot_id
 
 def plot_line (x0, y0, x1, y1, color=config.COLOR_LINE, linewidth = config.LINEWIDTH):
-	"""desenha uma linha que vai de (x0,y0) até (x1,y1) de cor color"""
+	"""desenha uma linha que vai de (x0,y0) at (x1,y1) de cor color"""
 	if skip: return 0
 	plot_id = gui.plot_line (x0, y0, x1, y1, color, linewidth)
 	update ()

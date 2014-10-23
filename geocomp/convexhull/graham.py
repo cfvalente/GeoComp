@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Algoritmo de Graham"""
 
 from geocomp.common.polygon import Polygon

@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 class edge():
 
 	def __init__(self, origin, originInd, destiny):

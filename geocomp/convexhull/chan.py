@@ -1,5 +1,3 @@
- #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Timothy M. Chan
 Optimal Output-Sensitive Convex Hull Algorithms in Two and Three Dimensions
    Discrete & Computational Geometry, volume 16,1996
