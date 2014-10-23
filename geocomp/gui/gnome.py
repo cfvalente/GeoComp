@@ -1,5 +1,5 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python
 """Implementacao das operacoes graficas usando GNOME.
 
 Esse modulo nao deve ser usado diretamente.
@@ -37,27 +37,38 @@ def sleep ():
 		mainloop ()
 
 def plot_disc (x, y, color, r):
-	widget = canvas.root().add ('ellipse', x1=canvas.r2cx(x)-r, y1=canvas.r2cy(y)-r,
+	widget = canvas.root().add ('GnomeCanvasEllipse', x1=canvas.r2cx(x)-r, y1=canvas.r2cy(y)-r,
 					x2=canvas.r2cx(x)+r,y2=canvas.r2cy(y)+r, fill_color=color)
+
+# item = gnome_canvas_item_new(group, GNOME_TYPE_CANVAS_ELLIPSE,
+#   "x1", 3.0, "y1", 3.0, "x2", 250.0, "y2", 100.0,
+#   "fill_color", "tan",
+#   "fill_stipple", dstipple,
+#   "outline_color", "red",
+#   "outline_stipple", hstipple,
+#   "width_units", 6.0, NULL);
+        
+	#widget = canvas.root().add ('GnomeCanvasEllipse', x1=10.0,y1=10.0,x2=100.0,y2=100.0, fill_color=color)
+	#print widget
 	widget.show ()
-	return widget
+	return None
 
 def plot_line (x0, y0, x1, y1, color, linewidth):
-	widget = canvas.root().add ('line', points=(canvas.r2cx(x0), canvas.r2cy(y0), 
+	widget = canvas.root().add ('GnomeCanvasLine', points=(canvas.r2cx(x0), canvas.r2cy(y0), 
 							canvas.r2cx(x1), canvas.r2cy(y1)),
 					   fill_color=color, width_pixels=linewidth)
 	widget.show ()
 	return widget
 
 def plot_vert_line (x, color, linewidth):
-	widget = canvas.root().add ('line', points=(canvas.r2cx(x), 0, 
+	widget = canvas.root().add ('GnomeCanvasLine', points=(canvas.r2cx(x), 0, 
 					   		canvas.r2cx(x), int (canvas['height'])),
 					  fill_color=color, width_pixels=linewidth)
 	widget.show ()
 	return widget
 
 def plot_horiz_line (y, color, linewidth):
-	widget = canvas.root().add ('line', points=(0, canvas.r2cy(y), 
+	widget = canvas.root().add ('GnomeCanvasLine', points=(0, canvas.r2cy(y), 
 					   		canvas.r2cy(y), int (canvas['height'])), 
 					   fill_color=color, width_pixels=linewidth)
 	widget.show ()
@@ -68,7 +79,8 @@ def plot_delete (widget):
 	widget.destroy ()
 
 def config_canvas (minx, maxx, miny, maxy):
-	for item in canvas.root ().children ():
+	for item in canvas.root().item_list:
+		#print item
 		item.destroy ()
 
 	Dx = maxx - minx

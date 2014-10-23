@@ -1,5 +1,9 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python
+
+# TODO: 
+#     -> fazer sair c/ C-q !!!
+
 import os
 import string
 from gtk import *
@@ -9,6 +13,8 @@ from geocomp import config
 from geocomp.gui import gnome
 
 import sys
+import gtk
+from gnomecanvas import Canvas
 
 class App:
 	def __init__ (self):
@@ -18,59 +24,59 @@ class App:
 		self.ppu = 1.0
 		self.idle_id = None
 
-		self.window = GtkWindow ()
+		self.window = gtk.Window ()
 		self.window.connect ('destroy', mainquit)
 		self.window.set_title ('Geocomp')
 		self.window.set_border_width (10)
 
-		self.out_vbox = GtkVBox ()
+		self.out_vbox = gtk.VBox ()
 		self.window.add (self.out_vbox)
 
-		self.extra_label = GtkLabel ('----------')
+		self.extra_label = gtk.Label ('----------')
 		self.out_vbox.pack_end (self.extra_label, expand = FALSE)
 
-		self.main_hbox = GtkHBox ()
+		self.main_hbox = gtk.HBox ()
 		self.out_vbox.pack_start (self.main_hbox)
 
-		self.canvas_vbox = GtkVBox ()
+		self.canvas_vbox = gtk.VBox ()
 		self.main_hbox.pack_end (self.canvas_vbox)
 
-		ha = GtkAdjustment (0, 0, 1000, 40, 100, 100)
-		va = GtkAdjustment (0, 0, 1000, 40, 100, 100)
-		self.scroll = GtkScrolledWindow (ha, va)
+		ha = gtk.Adjustment (0, 0, 1000, 40, 100, 100)
+		va = gtk.Adjustment (0, 0, 1000, 40, 100, 100)
+		self.scroll = gtk.ScrolledWindow (ha, va)
 		self.canvas_vbox.pack_start (self.scroll)
 
-		#self.canvas = GnomeCanvas (aa=TRUE)
-		self.canvas = GnomeCanvas (aa=FALSE)
+		#self.canvas = gnome.Canvas (aa=TRUE)
+		self.canvas = Canvas (aa=FALSE)
 		self.canvas.set_usize (config.WIDTH, config.HEIGHT)
 		self.canvas.set_scroll_region(0,0, config.WIDTH, config.HEIGHT)
 		self.scroll.add (self.canvas)
 
-		self.controls_box = GtkHBox ()
+		self.controls_box = gtk.HBox ()
 		self.canvas_vbox.pack_end (self.controls_box, expand=FALSE)
 
-		self.dyn_controls_box = GtkHBox ()
+		self.dyn_controls_box = gtk.HBox ()
 		self.controls_box.pack_start (self.dyn_controls_box)
 
-		self.delay = GtkSpinButton (GtkAdjustment (config.DELAY, 0, config.MAX_DELAY, 10, config.MAX_DELAY/10, config.MAX_DELAY/10), digits=0, climb_rate=10)
+		self.delay = gtk.SpinButton (gtk.Adjustment (config.DELAY, 0, config.MAX_DELAY, 10, config.MAX_DELAY/10, config.MAX_DELAY/10), digits=0, climb_rate=10)
 		self.delay.set_numeric (TRUE)
 		self.dyn_controls_box.pack_start (self.delay)#, expand=TRUE, fill=FALSE)
 
-		self.step = GtkCheckButton ('passo a passo')
+		self.step = gtk.CheckButton ('passo a passo')
 		self.step.set_state (TRUE)
 		self.step.connect_after ('clicked', self.step_clicked)
 		self.dyn_controls_box.pack_start (self.step, fill=FALSE)
 
-		self.zoom_in = GtkButton ('+')
-		self.zoom_out = GtkButton ('-')
-		#self.zoom_box = GtkHBox ()
+		self.zoom_in = gtk.Button ('+')
+		self.zoom_out = gtk.Button ('-')
+		#self.zoom_box = gtk.HBox ()
 		#self.canvas_vbox.pack_start (self.zoom_box)
 		self.dyn_controls_box.pack_start (self.zoom_in)
 		self.dyn_controls_box.pack_start (self.zoom_out)
 		self.zoom_in.connect ('clicked', self.zoom, 1.5)
 		self.zoom_out.connect ('clicked', self.zoom, 2.0/3.0)
 
-		self.hide = GtkCheckButton ('esconder')
+		self.hide = gtk.CheckButton ('esconder')
 		self.hide.set_state (TRUE)
 		self.controls_box.pack_start (self.hide, fill=FALSE)
 
@@ -78,14 +84,14 @@ class App:
 		geocomp.init_display (gnome, self)
 
 
-		self.left_box = GtkVBox ()
+		self.left_box = gtk.VBox ()
 		self.left_box.set_border_width (5)
 		self.main_hbox.pack_start (self.left_box, expand=FALSE)
 
-		self.file_box = GtkVBox ()
+		self.file_box = gtk.VBox ()
 		self.left_box.pack_start (self.file_box)
 
-		self.files_combo = GtkCombo ()
+		self.files_combo = gtk.Combo ()
 		self.handler_id = self.files_combo.entry.connect ("changed", self.open_file)
 		#self.handler_id = self.files_combo.list.connect ("selection_changed", self.open_file)
 		self.files_combo.set_value_in_list (val = TRUE, ok_if_empty = FALSE)
@@ -104,7 +110,7 @@ class App:
 		self.update_files (config.DATADIR, 1)
 
 		self.files_combo.entry.emit ("changed")
-		self.window.add_events (GDK.KEY_RELEASE)
+		self.window.add_events (gtk.gdk.KEY_RELEASE)
 #		while events_pending (): mainiteration ()
 	
 
@@ -130,14 +136,14 @@ class App:
 				files[i] = files[i] + '/'
 
 		self.datadir = directory
-		self.files_combo.entry.signal_handler_block (self.handler_id)
+		self.files_combo.entry.handler_block (self.handler_id)
 		self.files_combo.set_popdown_strings (files)
-		self.files_combo.entry.signal_handler_unblock (self.handler_id)
+		self.files_combo.entry.handler_unblock (self.handler_id)
 
 		if not init:
-			self.files_combo.entry.signal_handler_block (self.handler_id)
+			self.files_combo.entry.handler_block (self.handler_id)
 			self.files_combo.entry.set_text (self.cur_file)
-			self.files_combo.entry.signal_handler_unblock (self.handler_id)
+			self.files_combo.entry.handler_unblock (self.handler_id)
 
 	def open_file (self, entry):
 		selection = os.path.join (self.datadir, entry.get_text ())
@@ -168,12 +174,12 @@ class App:
 			self.buttons.hide ()
 
 		children = getattr (problem, 'children')
-		buttons = GtkTable (len (children), 3, FALSE)
+		buttons = gtk.Table (len (children), 3, FALSE)
 		self.left_box.pack_end (buttons, expand = FALSE)
 		row = 0
 		first = 1
 		for a in children:
-			b = GtkButton (a[-1])
+			b = gtk.Button (a[-1])
 
 			if a[1] == None:  # sub-modulo
 				buttons.attach (b, 0, 3, row, row+1, yoptions = 0, ypadding = 1)
@@ -183,7 +189,7 @@ class App:
 				buttons.attach (b, 0, 2, row, row+1, yoptions = 0, ypadding = 1)
 				alg = getattr (problem, a[0])
 				func = getattr (alg, a[1])
-				l = GtkLabel ('------')
+				l = gtk.Label ('------')
 				buttons.attach (l, 2, 3, row, row+1, yoptions = 0, ypadding = 1)
 				b.connect ('clicked', self.run_algorithm, (func, l))
 				self.labels.append (l)
@@ -194,11 +200,11 @@ class App:
 				first = 0
 				buttons.focus = b
 		if parent != None:
-			b = GtkButton ('Voltar')
+			b = gtk.Button ('Voltar')
 			b.connect ('clicked', self.create_buttons, (parent, parent))
 			buttons.attach (b, 0, 3, row, row+1, yoptions = 0, ypadding = 3)
 		else:
-			b = GtkButton ('Sair')
+			b = gtk.Button ('Sair')
 			b.connect ('clicked', mainquit)
 			buttons.attach (b, 0, 3, row, row+1, yoptions = 0, ypadding = 3)
 		self.panel[problem] = buttons
@@ -214,7 +220,7 @@ class App:
 
 	def key_release (self, widget, event):
 		#print event
-		if event.keyval == GDK.space:
+		if event.keyval == gtk.gdk.space:
 			self.step_completed = 1
 
 	def run_algorithm (self, clicked, arg):
