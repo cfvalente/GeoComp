@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from Tkinter import *
 import geocomp
 from geocomp.gui import tk

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # tamanho da area de desenho
 # WIDTH = 500

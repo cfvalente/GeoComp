@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Primitivas geometricas usadas nos algoritmos
 
 Use o modulo geocomp.common.guiprim para que essas primitivas sejam

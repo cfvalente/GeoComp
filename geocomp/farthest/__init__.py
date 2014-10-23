@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Algoritmos para o problema do Par Mais Distante:
 
 Dado um conjunto de pontos S, determinar dois cuja distancia entre eles 

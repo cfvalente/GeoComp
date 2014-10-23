@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Algoritmos para o problema de triangulacao:
 
 Dado um poligono encontra uma triangulacao

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Controla a visualizacao dos algoritmos"""
 
 import time

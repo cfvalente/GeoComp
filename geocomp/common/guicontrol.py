@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Controla a visualizacao dos algoritmos do ponto de vista do front-end"""
 
 skip = 0

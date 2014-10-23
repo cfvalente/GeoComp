@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Contem as mesmas funcoes do modulo geocomp.common.prim, mas desenhando na tela"""
 
 import control

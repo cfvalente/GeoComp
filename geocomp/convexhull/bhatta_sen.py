@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """B. K. Bhattacharya and S. Sen. 
   On a Simple, Practical, Optimal, Output-Sensitive Randomized 

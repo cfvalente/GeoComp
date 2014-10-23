@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """Modulo contendo classes e funcoes utilizadas por diversos algoritmos
 
 Sub-modulos:

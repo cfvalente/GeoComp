@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Algoritmo Merge Hull"""
 
 from geocomp.common.polygon import Polygon
