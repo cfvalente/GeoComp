@@ -1,3 +1,5 @@
+ #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Modulo para leitura de um arquivo de dados"""
 
 from string import split, atoi

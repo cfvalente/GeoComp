@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from geocomp.triangulation.monotone import Above
 from geocomp.triangulation.monotone import TriangMonotoneUsingDCEL
 from geocomp.common.prim import *

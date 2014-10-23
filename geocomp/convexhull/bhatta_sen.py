@@ -1,3 +1,5 @@
+ #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """B. K. Bhattacharya and S. Sen. 
   On a Simple, Practical, Optimal, Output-Sensitive Randomized 
@@ -160,7 +162,7 @@ def bhatta_sen_upper_rec (a, b, S):
 
 	return ret2
 
-#ok, eu fiquei com preguia e simplesmente copiei/colei a funcao 
+#ok, eu fiquei com preguiça e simplesmente copiei/colei a funcao 
 # abaixo, que e' simetrica `a acima
 def bhatta_sen_lower_rec (a, b, S):
 	"""Constroi a parte inferior do fecho convexo"""

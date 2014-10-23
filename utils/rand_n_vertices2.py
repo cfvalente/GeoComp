@@ -1,3 +1,5 @@
+ #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import randdisc
 import randcirc
@@ -26,7 +28,7 @@ if __name__ == '__main__':
 
 	if len (sys.argv) < 3:
 		print sys.argv[0],'<num_pts> <num_vertices> [radius]'
-		print '"radius"  multiplicado internamente por 0.7'
+		print '"radius" é multiplicado internamente por 0.7'
 		sys.exit (1)
 
 	num_pts = int (sys.argv[1])

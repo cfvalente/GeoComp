@@ -1,3 +1,9 @@
+ #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# TODO: 
+#     -> fazer sair c/ C-q !!!
+
 import os
 import string
 from gtk import *

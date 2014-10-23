@@ -1,3 +1,5 @@
+ #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import randdisc
 import random
@@ -18,7 +20,7 @@ if __name__ == '__main__':
 
 	if len (sys.argv) < 2:
 		print sys.argv[0],'<num> [radius]'
-		print '"radius"  multiplicado internamente por 0.4'
+		print '"radius" é multiplicado internamente por 0.4'
 		sys.exit (1)
 
 	if len (sys.argv) > 2:

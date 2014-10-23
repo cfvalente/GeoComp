@@ -40,7 +40,8 @@ def almostDiagonal(n, p, i, j):
 
 def isDiagonal(n, p, i, j):
 	return ( inCone(n, p, i%n, j%n) and almostDiagonal(n, p, i%n, j%n) )
-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 def isEar(n, p, i):
 	return isDiagonal(n, p, (i-1)%n, (i+1)%n)

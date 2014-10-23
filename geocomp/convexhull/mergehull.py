@@ -1,3 +1,5 @@
+ #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Algoritmo Merge Hull"""
 
 from geocomp.common.polygon import Polygon
@@ -166,22 +168,22 @@ def is_tan (a, b, c, d, e, f):
 	return 1
 
 def is_sup_tan_ch1 (v, u):
-	"Retorna verdadeiro se vu  tangente superior ao poligono que contem v"
+	"Retorna verdadeiro se vu é tangente superior ao poligono que contem v"
 	if v == v.next: return 1
 	return is_tan (v, u, v.next, v != v.next.next, u, right)
 
 def is_sup_tan_ch2 (v, u):
-	"Retorna verdadeiro se vu  tangente superior ao poligono que contem u"
+	"Retorna verdadeiro se vu é tangente superior ao poligono que contem u"
 	if u == u.next: return 1
 	return is_tan (v, u, u.prev, u != u.prev.prev, v, right)
 
 def is_inf_tan_ch1 (v, u):
-	"Retorna verdadeiro se vu  tangente inferior ao poligono que contem v"
+	"Retorna verdadeiro se vu é tangente inferior ao poligono que contem v"
 	if v == v.next: return 1
 	return is_tan (v, u, v.prev, v != v.prev.prev, u, left)
 
 def is_inf_tan_ch2 (v, u):
-	"Retorna verdadeiro se vu  tangente inferior ao poligono que contem u"
+	"Retorna verdadeiro se vu é tangente inferior ao poligono que contem u"
 	if u == u.next: return 1
 	return is_tan (v, u, u.next, u != u.next.next, v, left)
 
