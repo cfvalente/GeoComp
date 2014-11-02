@@ -5,18 +5,21 @@
 Dado um poligono encontra uma triangulacao
 
 Algoritmos disponveis:
-- Triangulacao de Y Monotono
+- Triangulação de Y Monótono
 - Lee e Preparata
-- Forca Bruta
+- Força Bruta
 """
+
+import plotpolygon
 import brute
 import leepreparata
 import monotone
 
 children = [
-	[ 'monotone', 'Monotone', 'Triangulacao de Y Monotono' ],
+	[ 'plotpolygon', 'PlotPolygon', 'Desenha o polígono' ],
+	[ 'monotone', 'Monotone', 'Triangulação de Y Monótono' ],
 	[ 'leepreparata', 'LeePreparata', 'Lee e Preparata' ],
-	[ 'brute', 'Brute', 'Forca Bruta' ]
+	[ 'brute', 'Brute', 'Força Bruta' ]
 ]
 
 __all__ = map (lambda a: a[0], children)
