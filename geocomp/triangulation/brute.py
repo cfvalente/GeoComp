@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from geocomp.common.prim import * 
-
+from geocomp.common import control
+from geocomp.triangulation.plotpolygon import PlotPolygon
 
 def intersectsProp(a, b, c, d):
 	if (collinear(a, b, c) or collinear(a, b, d) or collinear(c, d, a) or collinear(c, d, b)):
@@ -45,24 +46,46 @@ def isDiagonal(n, p, i, j):
 
 
 def isEar(n, p, i):
-	return isDiagonal(n, p, (i-1)%n, (i+1)%n)
+	p[i].hilight('yellow')
+	control.sleep ()
+	p[(i-1)%n].lineto(p[(i+1)%n], 'yellow')
+	control.sleep ()
+	ear = isDiagonal(n, p, (i-1)%n, (i+1)%n)
+	p[i].unhilight()
+	p[(i-1)%n].remove_lineto(p[(i+1)%n])
+	if(ear == True):
+		p[i].hilight('green')
+	control.sleep ()
+	return ear
 
 
 def findAllEars(n, p):
 	ear = [False]*n
 	for i in range(0, n):
-		ear[i] = isEar(n, p, i)
+		ear[i] = isEar(n, p, i)	
 	return ear
 
 
 def Brute(p):
 	print ""
+	PlotPolygon(p)
 	n = len(p)
 	ear = findAllEars(n, p)
 	while(n > 3):
 		i = 0
 		while ( not ear[i] ):
 			i = i+1
+		aux = p[i]
+		p[i].unhilight()
+		p[i].hilight('cyan')
+		control.sleep ()
+		if(ear[(i-1)%n]):
+			p[(i-1)%n].unhilight()
+		if(ear[(i+1)%n]):
+			p[(i+1)%n].unhilight()
+		p[(i-1)%n].lineto(p[(i+1)%n], 'red')
+		control.sleep ()
+		control.sleep ()
 		v2 = p[i]
 		v1 = p[(i-1)%n]
 		v3 = p[(i+1)%n]
@@ -72,6 +95,13 @@ def Brute(p):
 		indv1 = (i-1)%n
 		indv3 = i%n
 		ear[indv1] = isEar(n, p, indv1)
+		control.sleep ()
 		ear[indv3] = isEar(n, p, indv3)
+		control.sleep ()
+		aux.unhilight()
+		control.sleep()
 		print(str(v1)+" "+str(v3))
+	for i in range(0, 3):
+		if(ear[i] == True):
+			p[i].unhilight()
 	return 0;

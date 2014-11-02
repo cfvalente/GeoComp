@@ -6,6 +6,8 @@ from geocomp.triangulation.stack import *
 from math import acos
 from math import sqrt
 from geocomp.triangulation.mergesort import Above
+from geocomp.common import control
+from geocomp.triangulation.plotpolygon import PlotPolygon
 
 
 # Merge assumindo listas decrescentes
@@ -124,6 +126,7 @@ def TriangMonotoneUsingDCEL(d):
 # -- O algoritmo so funciona para poligonos dados no sentido anti horario!!! Em decorrencia do uso da funcao Reflex
 def Monotone(p):
 	print ""
+	PlotPolygon(p)
 	d = dcel()
 	d.createDCELfromPolygon(p)
 

@@ -5,4 +5,4 @@ from geocomp.common.polygon import *
 
 def PlotPolygon(p):
 	polygon = Polygon(p)
-	polygon.plot (color = config.COLOR_POLYGON)
+	polygon.plot ('white')

@@ -6,6 +6,8 @@ from geocomp.common.prim import *
 from geocomp.triangulation.dcel import *
 from geocomp.triangulation.avl import *
 from geocomp.triangulation.mergesort import MergeSort
+from geocomp.common import control
+from geocomp.triangulation.plotpolygon import PlotPolygon
 
 class trapezoid():
 	def __init__(self, top, topIndex, ledge_origin, ledge_destiny, redge_origin, redge_destiny):
@@ -85,6 +87,7 @@ def insertEdgeUsingOd(od, d, i, node):
 # Hipotese - Poligono simples e eh dado em sentido anti horario	
 def LeePreparata(p):
 	print ""
+	PlotPolygon(p)
 	n = len(p)
 	t = avl()
 	d = dcel()
