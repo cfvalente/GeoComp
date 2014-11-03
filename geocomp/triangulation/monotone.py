@@ -105,7 +105,6 @@ def TriangMonotoneUsingDCEL(d):
 
 				s.insert(event[i])
 				staux.unhilight()
-				control.sleep ()
 
 
 			elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
@@ -133,7 +132,6 @@ def TriangMonotoneUsingDCEL(d):
 					s.remove()
 				s1.origin.unhilight()
 				staux.unhilight()
-				control.sleep ()
 
 			else:
 				print "wtf"
