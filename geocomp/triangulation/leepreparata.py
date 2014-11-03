@@ -87,6 +87,8 @@ def insertEdgeUsingOd(od, d, i, node):
 # Hipotese - Poligono simples e eh dado em sentido anti horario	
 def LeePreparata(p):
 	print ""
+	if(len(p) <= 3):
+		return 0
 	PlotPolygon(p)
 	n = len(p)
 	t = avl()

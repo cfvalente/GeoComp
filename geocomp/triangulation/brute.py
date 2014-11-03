@@ -68,6 +68,8 @@ def findAllEars(n, p):
 
 def Brute(p):
 	print ""
+	if(len(p) <= 3):
+		return 0
 	PlotPolygon(p)
 	n = len(p)
 	ear = findAllEars(n, p)
