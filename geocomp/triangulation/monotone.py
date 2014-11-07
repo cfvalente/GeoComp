@@ -69,6 +69,9 @@ def Adjacent(e1, e2):
 
 
 def Reflex(ui, st, stt):
+	ui.origin.lineto(stt.origin, 'yellow')
+	control.sleep ()
+	ui.origin.remove_lineto(stt.origin)
 	#Entao estamos na parte crescente do poligono - parte direita considerando sentido anti horario - com isso basta checar
 	if(Above(st.next.origin, st.origin)):
 		return not left(ui.origin,st.origin,stt.origin)

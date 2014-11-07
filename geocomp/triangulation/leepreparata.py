@@ -115,6 +115,8 @@ def LeePreparata(p):
 			else:
 				node.value.leo.lineto(node.value.led, 'green')
 				node.value.reo.lineto(node.value.red, 'green')
+				node.value.top.hilight('green')
+				control.sleep ()
 				left = leftEdge(p, event[i], n)
 				trap1 = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, p[event[i]], p[(event[i]+left)%n])
 				trap2 = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]-left)%n], node.value.reo, node.value.red)
@@ -124,6 +126,7 @@ def LeePreparata(p):
 				control.sleep ()
 				node.value.leo.remove_lineto(node.value.led)
 				node.value.reo.remove_lineto(node.value.red)
+				node.value.top.unhilight()
 				t.remove(node)
 				t.insert(trap2)
 				t.insert(trap1)
@@ -136,10 +139,13 @@ def LeePreparata(p):
 			pred = t.predecessor(node)
 			node.value.leo.lineto(node.value.led, 'green')
 			node.value.reo.lineto(node.value.red, 'green')
+			node.value.top.hilight('green')
 			# Caso haja dois trapezios em cima do ponto evento
 			if(suc != None and suc.value.equal(p[event[i]])):
 				suc.value.leo.lineto(suc.value.led, 'cyan')
 				suc.value.reo.lineto(suc.value.red, 'cyan')
+				suc.value.top.hilight('cyan')
+				control.sleep ()
 				trap = trapezoid(p[event[i]], event[i], node.value.leo, node.value.led, suc.value.reo, suc.value.red)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], node)
@@ -152,8 +158,10 @@ def LeePreparata(p):
 				control.sleep ()
 				node.value.leo.remove_lineto(node.value.led)
 				node.value.reo.remove_lineto(node.value.red)
+				node.value.top.unhilight()
 				suc.value.leo.remove_lineto(suc.value.led)
 				suc.value.reo.remove_lineto(suc.value.red)
+				suc.value.top.unhilight()
 				t.remove(node)
 				t.remove(suc)
 				t.insert(trap)
@@ -161,6 +169,8 @@ def LeePreparata(p):
 			elif(pred != None and pred.value.equal(p[event[i]])):
 				pred.value.leo.lineto(pred.value.led, 'cyan')
 				pred.value.reo.lineto(pred.value.red, 'cyan')
+				pred.value.top.hilight('cyan')
+				control.sleep ()
 				trap = trapezoid(p[event[i]], event[i], pred.value.leo, pred.value.led, node.value.reo, node.value.red)
 				if(downSpike(p, node.value.topIndex) and abs(event[i]-node.value.topIndex) > 1):
 					insertEdgeUsingOd(od, d, event[i], node)
@@ -173,8 +183,10 @@ def LeePreparata(p):
 				control.sleep ()
 				node.value.leo.remove_lineto(node.value.led)
 				node.value.reo.remove_lineto(node.value.red)
+				node.value.top.unhilight()
 				pred.value.leo.remove_lineto(pred.value.led)
 				pred.value.reo.remove_lineto(pred.value.red)
+				pred.value.top.unhilight()
 				t.remove(node)
 				t.remove(pred)
 				t.insert(trap)
@@ -189,6 +201,7 @@ def LeePreparata(p):
 				control.sleep ()
 				node.value.leo.remove_lineto(node.value.led)
 				node.value.reo.remove_lineto(node.value.red)
+				node.value.top.unhilight()
 				t.remove(node)
 				control.sleep ()
 
@@ -198,6 +211,7 @@ def LeePreparata(p):
 			node = t.findNode(p[event[i]])
 			node.value.leo.lineto(node.value.led, 'green')
 			node.value.reo.lineto(node.value.red, 'green')
+			node.value.top.hilight('green')
 			if(collinear(node.value.leo, node.value.led, p[event[i]])):
 				trap = trapezoid(p[event[i]], event[i], p[event[i]], p[(event[i]+downEdge(p, event[i], n))%n], node.value.reo, node.value.red)
 			else:
@@ -209,6 +223,7 @@ def LeePreparata(p):
 			control.sleep ()
 			node.value.leo.remove_lineto(node.value.led)
 			node.value.reo.remove_lineto(node.value.red)
+			node.value.top.unhilight()
 			t.remove(node)
 			t.insert(trap)
 			control.sleep ()
