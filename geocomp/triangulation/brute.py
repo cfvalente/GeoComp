@@ -29,7 +29,7 @@ def inCone(n, p, i, j):
 	w = (i+1)%n
 	if(left_on(p[u], p[i], p[w])):
 		return (left(p[i], p[j], p[u]) and left(p[j], p[i], p[w]))
-	return not ( left(p[i], p[j], p[w]) and left(p[j], p[i], p[u]) )
+	return not ( left_on(p[i], p[j], p[w]) and left_on(p[j], p[i], p[u]) )
 
 
 def almostDiagonal(n, p, i, j):
