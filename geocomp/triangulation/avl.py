@@ -145,7 +145,7 @@ class avl():
 		R.height = getHeight(R)
 
 
-	# Faz o balanceamento da arvore - diferenca em altura das duas subarvores de cada no nao pode ser maior que 2
+	# Faz o balanceamento da arvore - diferença em altura das duas subarvores de cada nó não pode ser maior que 2
 	def balance(self, treeNode):
 		lHeight = getHeight(treeNode.left)
 		rHeight = getHeight(treeNode.right)
@@ -215,20 +215,20 @@ class avl():
 	def removeRec(self, treeNode, node):
 		#busca o node do elemento
 		if(treeNode == node):
-			#node nao tem filhos, eh uma folha - simplesmente apaga e retorna para fazer o rebalanceamento do no acima
+			#node não tem filhos, é uma folha - simplesmente apaga e retorna para fazer o rebalanceamento do no acima
 			if(treeNode.left == None and treeNode.right == None):
-				#node eh a raiz
+				#node é a raiz
 				if(treeNode.parent == None):
 					self.root = None
 					return 0
-				# node nao eh a raiz
+				# node não é a raiz
 				if(treeNode.parent.left == treeNode):
 					treeNode.parent.left = None
 					return 0
 				else:
 					treeNode.parent.right = None
 					return 0
-			#node nao eh folha, apresenta pelo menos um filho
+			#node não é folha, apresenta pelo menos um filho
 			else:
 				#apresenta apenas o filho esquerdo
 				if(treeNode.left != None and treeNode.right == None):
@@ -278,7 +278,7 @@ class avl():
 		self.balance(treeNode)
 		return 0
 
-	# Remove o trapezio dado em value da arvore
+	# Remove o trapezio dado da arvore
 	def remove(self,node):
 		treeNode = self.root
 		if not(treeNode == None):

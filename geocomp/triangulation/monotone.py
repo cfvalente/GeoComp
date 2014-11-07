@@ -72,11 +72,20 @@ def Reflex(ui, st, stt):
 	ui.origin.lineto(stt.origin, 'yellow')
 	control.sleep ()
 	ui.origin.remove_lineto(stt.origin)
-	#Entao estamos na parte crescente do poligono - parte direita considerando sentido anti horario - com isso basta checar
-	if(Above(st.next.origin, st.origin)):
-		return not left(ui.origin,st.origin,stt.origin)
-	#Caso estejamos na parte descrescente temos que checar o inverso
-	return not right(ui.origin,st.origin,stt.origin)
+
+	# Parte esquerda do poligono - descrescente
+	if((st.origin.y > st.next.origin.y)):
+		return right_on(stt.origin, st.origin, ui.origin)
+	# Caso degenerado com pontos colineares
+	elif(st.origin.y == st.next.origin.y):
+		n = st.next
+		while(st.origin.y == n.origin.y):
+			n = n.next
+		if(st.origin.y > n.origin.y):
+			return right_on(stt.origin, st.origin, ui.origin)
+	# Parte direita do poligono - crescente
+	return left_on(stt.origin, st.origin, ui.origin)
+
 
 
 def TriangMonotoneUsingDCEL(d):
@@ -145,7 +154,6 @@ def TriangMonotoneUsingDCEL(d):
 	return 0
 
 
-# -- O algoritmo so funciona para poligonos dados no sentido anti horario!!! Em decorrencia do uso da funcao Reflex
 def Monotone(p):
 	print ""
 	if(len(p) <= 3):
@@ -158,23 +166,3 @@ def Monotone(p):
 
 	return 0
 
-
-
-#( 60.0 387.0 ) ( 243.0 395.0 )
-#( 60.0 387.0 ) ( 240.0 437.0 )
-#( 138.0 357.0 ) ( 243.0 395.0
-#( 300.0 347.0 ) ( 138.0 357.0
-#( 400.0 307.0 ) ( 138.0 357.0
-#( 200.0 285.0 ) ( 400.0 307.0
-#( 390.0 237.0 ) ( 200.0 285.0
-#( 161.0 204.0 ) ( 390.0 237.0
-#( 290.0 197.0 ) ( 161.0 204.0
-#( 100.0 174.0 ) ( 290.0 197.0
-#( 240.0 137.0 ) ( 100.0 174.0
-#( 157.0 95.0 ) ( 364.0 124.0 )
-#( 157.0 95.0 ) ( 240.0 137.0 )
-#( 224.0 80.0 ) ( 364.0 124.0 )
-#( 340.0 67.0 ) ( 224.0 80.0 )
-#( 192.0 39.0 ) ( 340.0 67.0 )
-#( 312.0 37.0 ) ( 192.0 39.0 )
-#( 361.0 12.0 ) ( 192.0 39.0 )
