@@ -73,6 +73,9 @@ def Reflex(ui, st, stt):
 	control.sleep ()
 	ui.origin.remove_lineto(stt.origin)
 
+	if(collinear(st.origin, stt.origin, ui.origin)):
+		return 1
+
 	# Parte esquerda do poligono - descrescente
 	if((st.origin.y > st.next.origin.y)):
 		return right_on(stt.origin, st.origin, ui.origin)
