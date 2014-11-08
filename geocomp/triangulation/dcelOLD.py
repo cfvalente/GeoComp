@@ -9,7 +9,7 @@ class edge():
 		self.next = None
 		self.previous = None
 		self.twin = None
-		self.verified = False
+		self.face = 0
 
 
 class dcel():
@@ -24,6 +24,9 @@ class dcel():
 
 		ie = edge(p[0], 0, p[1])
 		it = edge(p[1], 1, p[0])
+
+		ie.face = 1
+		it.face = 0
 
 		ie.twin = it
 		it.twin = ie
@@ -95,11 +98,6 @@ class dcel():
 			e = e.next
 		return e
 
-
-	
-
-
-
 	# Nova aresta entre as origem da aresta1 ate a origem da aresta2
 	def insertEdge(self, edge1, edge2):
 		ne = edge(edge2.origin, edge2.originInd, edge1.origin)
@@ -119,7 +117,18 @@ class dcel():
 		edge2.previous.next = ne
 		edge2.previous = nt
 		
-		self.faces.append(ne)
+		face = len(self.faces)
+
+		ne.face = edge1.face
+		nt.face = face
+
+		nt_aux = nt.next
+		while(nt != nt_aux):
+			nt_aux.face = face
+			nt_aux = nt_aux.next
+
+
+		self.faces[edge1.face] = ne
 		self.faces.append(nt)
 
 		return ne

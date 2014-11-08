@@ -42,7 +42,9 @@ def generateDecreasingVerticeList(dcel, face):
 	maxEdge = dcel.faces[face]
 	origin = dcel.faces[face].origin
 	e = dcel.faces[face].next
+	dcel.faces[face].verified = True
 	while(e.origin != origin):
+		e.verified = True
 		if(Above(e.origin, maxEdge.origin)):
 			maxEdge = e
 		if(Above(minEdge.origin, e.origin)):
@@ -93,66 +95,69 @@ def Reflex(ui, st, stt):
 
 def TriangMonotoneUsingDCEL(d):
 	for f in range(1, len(d.faces)):
-		event = generateDecreasingVerticeList(d, f)
-		s = stack()
 
-		s1 = event[0]
-		s.insert(event[0])
-		s.insert(event[1])
+		if(d.faces[f].verified == False):
+
+			event = generateDecreasingVerticeList(d, f)
+			s = stack()
+
+			s1 = event[0]
+			s.insert(event[0])
+			s.insert(event[1])
 		
-		s1.origin.hilight('cyan')
+			s1.origin.hilight('cyan')
 
-		for i in range(2, len(event)):
-			st = s.getTop()
-			staux = s.getTop().origin
-			staux.hilight('green')
-			aux = event[i].origin
-			aux.hilight('yellow')
-			control.sleep ()
-
-			if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
-				while( s.size > 1 and not Reflex(event[i], st, s.getSecond())):
-					s.remove()
-					st = s.getTop()
-					print(str(event[i].origin)+" "+str(st.origin))
-					event[i].origin.lineto(st.origin, 'red')
-					control.sleep ()
-
-				s.insert(event[i])
-				staux.unhilight()
-
-
-			elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
-				while(s.size > 1):
-					print(str(event[i].origin)+" "+str(s.getTop().origin))
-					event[i].origin.lineto(s.getTop().origin, 'red')
-					control.sleep ()
-					s.remove()
-				s.remove()
-				s.insert(st)
-				s.insert(event[i])
-				s1.origin.unhilight()
-				s1 = st
-				staux.unhilight()
+			for i in range(2, len(event)):
+				st = s.getTop()
+				staux = s.getTop().origin
+				staux.hilight('green')
+				aux = event[i].origin
+				aux.hilight('yellow')
 				control.sleep ()
-				s1.origin.hilight('cyan')
+
+				if(not Adjacent(event[i], s1) and Adjacent(event[i], st)):
+					while( s.size > 1 and not Reflex(event[i], st, s.getSecond())):
+						s.remove()
+						st = s.getTop()
+						print(str(event[i].origin)+" "+str(st.origin))
+						event[i].origin.lineto(st.origin, 'red')
+						control.sleep ()
+
+					s.insert(event[i])
+					staux.unhilight()
 
 
-			elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
-				s.remove()
-				while(s.size > 1):
-					print(str(event[i].origin)+" "+str(s.getTop().origin))
-					event[i].origin.lineto(s.getTop().origin, 'red')
-					control.sleep ()
+				elif(Adjacent(event[i], s1) and not Adjacent(event[i], st)):
+					while(s.size > 1):
+						print(str(event[i].origin)+" "+str(s.getTop().origin))
+						event[i].origin.lineto(s.getTop().origin, 'red')
+						control.sleep ()
+						s.remove()
 					s.remove()
-				s1.origin.unhilight()
-				staux.unhilight()
+					s.insert(st)
+					s.insert(event[i])
+					s1.origin.unhilight()
+					s1 = st
+					staux.unhilight()
+					control.sleep ()
+					s1.origin.hilight('cyan')
 
-			else:
-				print "wtf"
-			aux.unhilight()
 
-			control.sleep ()
+				elif(Adjacent(event[i], s1) and Adjacent(event[i], st)):
+					s.remove()
+					while(s.size > 1):
+						print(str(event[i].origin)+" "+str(s.getTop().origin))
+						event[i].origin.lineto(s.getTop().origin, 'red')
+						control.sleep ()
+						s.remove()
+					s1.origin.unhilight()
+					staux.unhilight()
+
+				else:
+					print "wtf"
+				aux.unhilight()
+
+				control.sleep ()
 
 	return 0
 

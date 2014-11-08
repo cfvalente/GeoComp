@@ -62,7 +62,7 @@ def downEdge(p, i, n):
 	return 1
 
 # Indexando as arestas pelos indices dos vertices - usando origem da aresta como base
-def orderedDCEL(d, point, n):
+def orderedDCEL(d, point, n, face):
 	edge = d.findEdgeUsingOrigin(point, 1)
 	orderedDcel = []
 	list = []
@@ -73,18 +73,10 @@ def orderedDCEL(d, point, n):
 		edge = edge.next
 	return orderedDcel
 
-def inCone(od, edge1, edge2):
-	u = edge1.previous
-	w = edge1.next
-	if(left_on(u.origin, edge1.origin, w.origin)):
-		return (left(edge1.origin, edge2.origin, u.origin) and left(edge2.origin, edge1.origin, w.origin))
-	return not ( left_on(edge1.origin, edge2.origin, w.origin) and left_on(edge2.origin, edge1.origin, u.origin) )
-
-
 def insertEdgeUsingOd(od, d, i, node):
 	for j in range(0, len(od[i])):
 		for k in range(0, len(od[node.value.topIndex])):
-			if(inCone(od, od[i][j], od[node.value.topIndex][k]) and inCone(od, od[node.value.topIndex][k], od[i][j])):
+			if(od[node.value.topIndex][k].face == od[i][j].face):
 				ne = d.insertEdge(od[i][j], od[node.value.topIndex][k])
 				nt = ne.twin
 				od[ne.originInd].append(ne)
@@ -92,6 +84,7 @@ def insertEdgeUsingOd(od, d, i, node):
 				return
 	
 
+# Hipotese - Poligono simples e eh dado em sentido anti horario	
 def LeePreparata(p):
 	print ""
 	if(len(p) <= 3):
@@ -101,12 +94,11 @@ def LeePreparata(p):
 	t = avl()
 	d = dcel()
 	d.createDCELfromPolygon(p)
-	od = orderedDCEL(d, p[0], n)
+	od = orderedDCEL(d, p[0], n, 1)
 	event = MergeSort(p, range(0, n))
 
 
 	for i in range(0, n):
-
 
 		p[event[i]].hilight('yellow')
 
