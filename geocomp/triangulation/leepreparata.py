@@ -32,7 +32,6 @@ class trapezoid():
 
 	# n > self
 	def greaterN(self, n):
-		#if(left_on(self.reo, self.red, n.led) and left_on(self.reo, self.red, n.red)):
 		if(left_on(self.reo, self.red, n.top) and left_on(self.reo, self.red, n.top)):
 			return 1
 		return 0
