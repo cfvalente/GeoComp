@@ -62,13 +62,8 @@ def generateDecreasingVerticeList(dcel, face):
 		l2.append(e)
 		e = e.previous
 
-	
 	e = minEdge
-	while(e.origin.y == minEdge.origin.y):
-		e.rightSide = True
-		e = e.previous
-	e = minEdge
-	while(e.origin.y != maxEdge.origin.y):
+	while(e.origin != maxEdge.origin):
 		e.rightSide = True
 		e = e.next
 
