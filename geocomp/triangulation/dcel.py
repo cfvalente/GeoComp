@@ -10,6 +10,7 @@ class edge():
 		self.previous = None
 		self.twin = None
 		self.verified = False
+		self.rightSide = False
 
 
 class dcel():

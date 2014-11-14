@@ -62,6 +62,16 @@ def generateDecreasingVerticeList(dcel, face):
 		l2.append(e)
 		e = e.previous
 
+	
+	e = minEdge
+	while(e.origin.y == minEdge.origin.y):
+		e.rightSide = True
+		e = e.previous
+	e = minEdge
+	while(e.origin.y != maxEdge.origin.y):
+		e.rightSide = True
+		e = e.next
+
 	return Merge(l1,l2)
 
 def Adjacent(e1, e2):
@@ -78,18 +88,9 @@ def Reflex(ui, st, stt):
 	if(collinear(st.origin, stt.origin, ui.origin)):
 		return 1
 
-	# Parte esquerda do poligono - descrescente
-	if((st.origin.y > st.next.origin.y)):
-		return right_on(stt.origin, st.origin, ui.origin)
-	# Caso degenerado com pontos colineares
-	elif(st.origin.y == st.next.origin.y):
-		n = st.next
-		while(st.origin.y == n.origin.y):
-			n = n.next
-		if(st.origin.y > n.origin.y):
-			return right_on(stt.origin, st.origin, ui.origin)
-	# Parte direita do poligono - crescente
-	return left_on(stt.origin, st.origin, ui.origin)
+	if(st.rightSide):
+		return left_on(stt.origin, st.origin, ui.origin)
+	return right_on(stt.origin, st.origin, ui.origin)
 
 
 
