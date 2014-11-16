@@ -215,9 +215,9 @@ class avl():
 		suc = self.findSucessorForRemovalRec(treeNode.right)
 		return suc
 
-	def removeRec(self, treeNode, node):
+	def removeRec(self, treeNode, value):
 		#busca o node do elemento
-		if(treeNode.equalN(node.value)):
+		if(treeNode.equal(value)):
 			#node não tem filhos, é uma folha - simplesmente apaga e retorna para fazer o rebalanceamento do no acima
 			if(treeNode.left == None and treeNode.right == None):
 				#node é a raiz
@@ -266,14 +266,14 @@ class avl():
 					suc = self.findSucessorForRemoval(treeNode)
 					treeNode.setValueN(suc)
 
-		elif(treeNode.greaterN(node.value)):
+		elif(treeNode.greater(value)):
 			if(treeNode.right != None):
-				self.removeRec(treeNode.right, node)
+				self.removeRec(treeNode.right, value)
 			else:
 				return 0
 		else:
 			if(treeNode.left != None):
-				self.removeRec(treeNode.left, node)
+				self.removeRec(treeNode.left, value)
 			else:
 				return 0
 
@@ -282,8 +282,8 @@ class avl():
 		return 0
 
 	# Remove o trapezio dado da arvore
-	def remove(self,node):
+	def remove(self, value):
 		treeNode = self.root
 		if not(treeNode == None):
-			self.removeRec(treeNode, node)
+			self.removeRec(treeNode, value)
 		return 1

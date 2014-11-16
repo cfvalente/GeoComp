@@ -36,12 +36,6 @@ class trapezoid():
 			return 1
 		return 0
 
-	# n.top == self.value
-	def equalN(self, n):
-		if(left_on(self.leo, self.led, n.top) and right_on(self.reo, self.red, n.top)):
-			return 1 
-		return 0
-
 
 
 def upSpike(p, i):
