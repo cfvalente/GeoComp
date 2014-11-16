@@ -36,6 +36,12 @@ class trapezoid():
 			return 1
 		return 0
 
+	# n.top == self.value
+	def equalN(self, n):
+		if(left_on(self.leo, self.led, n.top) and right_on(self.reo, self.red, n.top)):
+			return 1 
+		return 0
+
 
 
 def upSpike(p, i):
@@ -134,7 +140,7 @@ def LeePreparata(p):
 				node.value.leo.remove_lineto(node.value.led)
 				node.value.reo.remove_lineto(node.value.red)
 				node.value.top.unhilight()
-				t.remove(node)
+				t.remove(p[event[i]])
 				t.insert(trap2)
 				t.insert(trap1)
 
@@ -169,8 +175,8 @@ def LeePreparata(p):
 				suc.value.leo.remove_lineto(suc.value.led)
 				suc.value.reo.remove_lineto(suc.value.red)
 				suc.value.top.unhilight()
-				t.remove(node)
-				t.remove(suc)
+				t.remove(p[event[i]])
+				t.remove(p[event[i]])
 				t.insert(trap)
 				control.sleep ()
 			elif(pred != None and pred.value.equal(p[event[i]])):
@@ -194,8 +200,8 @@ def LeePreparata(p):
 				pred.value.leo.remove_lineto(pred.value.led)
 				pred.value.reo.remove_lineto(pred.value.red)
 				pred.value.top.unhilight()
-				t.remove(node)
-				t.remove(pred)
+				t.remove(p[event[i]])
+				t.remove(p[event[i]])
 				t.insert(trap)
 				control.sleep ()
 
@@ -209,7 +215,7 @@ def LeePreparata(p):
 				node.value.leo.remove_lineto(node.value.led)
 				node.value.reo.remove_lineto(node.value.red)
 				node.value.top.unhilight()
-				t.remove(node)
+				t.remove(p[event[i]])
 				control.sleep ()
 
 		
@@ -231,7 +237,7 @@ def LeePreparata(p):
 			node.value.leo.remove_lineto(node.value.led)
 			node.value.reo.remove_lineto(node.value.red)
 			node.value.top.unhilight()
-			t.remove(node)
+			t.remove(p[event[i]])
 			t.insert(trap)
 			control.sleep ()
 

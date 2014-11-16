@@ -26,6 +26,9 @@ class node():
 	def greaterN(self, n):
 		return self.value.greaterN(n)
 
+	def equalN(self, n):
+		return self.value.equalN(n)
+
 def getHeight(node):
 	l = 0
 	r = 0
@@ -214,7 +217,7 @@ class avl():
 
 	def removeRec(self, treeNode, node):
 		#busca o node do elemento
-		if(treeNode == node):
+		if(treeNode.equalN(node.value)):
 			#node não tem filhos, é uma folha - simplesmente apaga e retorna para fazer o rebalanceamento do no acima
 			if(treeNode.left == None and treeNode.right == None):
 				#node é a raiz
