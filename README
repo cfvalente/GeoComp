@@ -1,3 +1,10 @@
+Projeto de Geometria Computacional
+Tr√™s solu√ß√µes diferentes para triangula√ß√£o de pol√≠gonos:
+- Remo√ß√£o de orelhas
+- Algoritmo para pol√≠gonos Y-mon√≥tonos
+- Algoritmo de Lee-Preparata
+
+-------------------
 Esse programa implementa os seguintes algoritmos para o problema do
 fecho convexo planar:
 
@@ -6,46 +13,46 @@ fecho convexo planar:
 - Quickhull
 - Mergehull
 - Incremental
-- Incremental ProbabilÌstico
-- Algoritmo Ûtimo proposto por Chan[1]
-- Algoritmo Ûtimo propost por Bhattacharya e Sen[2]
+- Incremental Probabil√≠stico
+- Algoritmo √≥timo proposto por Chan[1]
+- Algoritmo √≥timo propost por Bhattacharya e Sen[2]
 
-Existem trÍs "front-ends" ({cli,tk,g}geocomp.py). Para rodar qualquer um
-deles, vocÍ vai precisar de Python (testado com as versıes 1.5.2 e 2.1).
-AlÈm disso, tkgeocomp.py precisa do mÛdulo padr„o de Tk que acompanha a
-distribuiÁ„o de Python e ggeocomp.py precisa de gnome-python (testado
-com a vers„o 1.4.1)
+Existem tr√™s "front-ends" ({cli,tk,g}geocomp.py). Para rodar qualquer um
+deles, voc√™ vai precisar de Python (testado com as vers√µes 1.5.2 e 2.1).
+Al√©m disso, tkgeocomp.py precisa do m√≥dulo padr√£o de Tk que acompanha a
+distribui√ß√£o de Python e ggeocomp.py precisa de gnome-python (testado
+com a vers√£o 1.4.1)
 
 O arquivo geocomp/config.py pode ser alterado para mudar cores, tamanho
 da janela, largura da linha, etc.
 
 O programa tenta carregar automaticamente o primeiro arquivo do
-diretÛrio "dados". Depois disso, È possÌvel abrir arquivos em outros
-diretÛrios, usando o "menu" na parte superior esquerda da tela.
+diret√≥rio "dados". Depois disso, √© poss√≠vel abrir arquivos em outros
+diret√≥rios, usando o "menu" na parte superior esquerda da tela.
 
-Depois de rodar um algoritmo, o programa mostra o n˙mero de operaÁıes
-primitivas realizadas pelo algoritmo ao lado do seu bot„o. Alguns
-algoritmos podem retornar informaÁıes adicionais que s„o mostradas na
+Depois de rodar um algoritmo, o programa mostra o n√∫mero de opera√ß√µes
+primitivas realizadas pelo algoritmo ao lado do seu bot√£o. Alguns
+algoritmos podem retornar informa√ß√µes adicionais que s√£o mostradas na
 parte inferior da janela.
 
 O tempo entre dois passos de um algoritmo pode ser alterado
-dinamicamente durante a sua execuÁ„o e tambÈm È possÌvel executar apenas
+dinamicamente durante a sua execu√ß√£o e tamb√©m √© poss√≠vel executar apenas
 uma pequena parte do algoritmo passo a passo, bastando para isso usar
-o bot„o "passo a passo". Algumas vezes, È desej·vel apenas medir a
-eficiÍncia de um algoritmo para uma determinada entrada. Como qualquer
-algoritmo leva mais tempo desenhando do que fazendo conta, È possÌvel,
-antes de iniciar um algoritmo, apertar o bot„o "esconder" para n„o
-desenhar nada na tela, permitindo que o algoritmo rode bem mais r·pido.
+o bot√£o "passo a passo". Algumas vezes, √© desej√°vel apenas medir a
+efici√™ncia de um algoritmo para uma determinada entrada. Como qualquer
+algoritmo leva mais tempo desenhando do que fazendo conta, √© poss√≠vel,
+antes de iniciar um algoritmo, apertar o bot√£o "esconder" para n√£o
+desenhar nada na tela, permitindo que o algoritmo rode bem mais r√°pido.
 
-O front-end tkgeocomp.py permite salvar a imagem que est· desenhada
-em um determinado instante na tela, bastando para isso apertar o bot„o
-"imprimir". O formato da imagem criada È .eps (Encapsulated Postscript).
+O front-end tkgeocomp.py permite salvar a imagem que est√° desenhada
+em um determinado instante na tela, bastando para isso apertar o bot√£o
+"imprimir". O formato da imagem criada √© .eps (Encapsulated Postscript).
 
-O front-end ggeocomp.py permite dar um zoom em uma determinada ·rea da
-tela - infelizmente esse zoom n„o È muito ˙til porque os pontos
-continuam sendo desenhados na mesma proporÁ„o.
+O front-end ggeocomp.py permite dar um zoom em uma determinada √°rea da
+tela - infelizmente esse zoom n√£o √© muito √∫til porque os pontos
+continuam sendo desenhados na mesma propor√ß√£o.
 
-O front-end cligeocomp.py pode ser usado para rodar os algoritmos n„o
+O front-end cligeocomp.py pode ser usado para rodar os algoritmos n√£o
 interativamente. Ele pode ser chamado como:
 	cligeocomp geocomp/convexhull/graham.py dados/ptos*
 para rodar o algoritmo de Graham em todos os arquivos dados/ptos*, ou
@@ -55,23 +62,23 @@ como
 para rodar os algortimos de Graham e Quickhull dando dados/ptos2.pts de
 entrada. (dica: para rodar todos os algoritmos de fecho convexo, use
 	cligeocomp -a dados/ptos2.pts geocomp.convexhull/[^_]*.py
-  [^_]*.py vai pegar todos os arquivo que acabam em ".py" e que n„o
-comeÁam com "_")
+  [^_]*.py vai pegar todos os arquivo que acabam em ".py" e que n√£o
+come√ßam com "_")
 
 
 Acrescentando novos algoritmos/problemas
 ========================================
 Para acrescentar um novo algoritmo de, por exemplo, fecho convexo:
 - escreva seu algoritmo no arquivo geocomp/convexhull/novo_alg.py, numa
-  funÁ„o Novo_alg
+  fun√ß√£o Novo_alg
 - edite geocomp/convexhull/__init__.py colocando uma linha
 	import novo_alg
   e adicione um item 
   ('novo_alg', 'Novo_alg', 'um nome para aparecer na interface grafica')
-  ‡ vari·vel children
+  √† vari√°vel children
 
 Para colocar um novo problema:
-- crie um diretÛrio geocomp/novo_problema
+- crie um diret√≥rio geocomp/novo_problema
 - crie geocomp/novo_problema/__init__.py , no mesmo estilo de
   geocomp/convexhull/__init__.py :
   - uma linha "import foo" para cada arquivo foo.py
@@ -82,13 +89,13 @@ Para colocar um novo problema:
 	import novo_problema
   e coloque um item
   ( 'novo_problema', None, 'Um nome para a interface grafica')
-  na vari·vel children
+  na vari√°vel children
 
-Se o novo problema possuir uma entrada que n„o seja um conjunto de
-pontos, ser· necess·rio alterar, pelo menos geocomp/common/io.py e
-geocomp/common/guicontrol.py (funÁ„o run_algorithm) para que tudo
+Se o novo problema possuir uma entrada que n√£o seja um conjunto de
+pontos, ser√° necess√°rio alterar, pelo menos geocomp/common/io.py e
+geocomp/common/guicontrol.py (fun√ß√£o run_algorithm) para que tudo
 funcione.
 
-Quaisquer d˙vidas, entre em contato comigo
+Quaisquer d√∫vidas, entre em contato comigo
 
 alexis@ime.usp.br
